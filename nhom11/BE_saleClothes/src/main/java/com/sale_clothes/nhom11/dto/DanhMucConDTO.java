@@ -14,11 +14,7 @@ import lombok.Setter;
 
 public class DanhMucConDTO {
     private Integer dmc_ma;
-
-
     private String dmc_ten;
-
-
     private Integer dm_ma;
 
 }
