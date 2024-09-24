@@ -38,6 +38,7 @@ public class DonDatHang {
     @JoinColumn(name = "kh_username")
     private KhachHang kh_userName;
 
-    @OneToMany(mappedBy = "don_dat_hang")
+    @OneToMany(mappedBy = "httt_ma")
+
     private List<HinhThucThanhToan> httt_ma;
 }

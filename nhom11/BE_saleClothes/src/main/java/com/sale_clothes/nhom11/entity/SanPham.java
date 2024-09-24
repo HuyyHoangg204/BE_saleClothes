@@ -63,4 +63,16 @@ public class SanPham {
     @ManyToOne
     @JoinColumn(name = "ch_ma")
     private CuaHang ch_ma;
+
+    public SanPham(String sp_ma, String sp_ten, double sp_gia, double sp_giaCu, String sp_moTa_ngan, String sp_moTa_chiTiet, LocalDate sp_ngayCapNhat, int sp_soLuong, String sp_image) {
+        this.sp_ma = sp_ma;
+        this.sp_ten = sp_ten;
+        this.sp_gia = sp_gia;
+        this.sp_giaCu = sp_giaCu;
+        this.sp_moTa_ngan = sp_moTa_ngan;
+        this.sp_moTa_chiTiet = sp_moTa_chiTiet;
+        this.sp_ngayCapNhat = sp_ngayCapNhat;
+        this.sp_soLuong = sp_soLuong;
+        this.sp_image = sp_image;
+    }
 }

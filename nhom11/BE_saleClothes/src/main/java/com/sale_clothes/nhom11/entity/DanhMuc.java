@@ -21,4 +21,6 @@ public class DanhMuc {
 
     @Column(name = "dm_ten")
     private String dm_ten;
+
+
 }
