@@ -25,6 +25,7 @@ public class DanhMucConServiceImpl implements DanhMucConService {
 
     @Override
     public List<DanhMucConDTO> getAllDanhMucCon() {
+
         List<DanhMucCon> listDanhMucCon = danhMucConRepository.findAll();
         List<DanhMucConDTO> listDanhMucConDTO = new ArrayList<DanhMucConDTO>();
         for(DanhMucCon danhMucCon : listDanhMucCon) {

@@ -16,7 +16,9 @@ public class GioHangServiceImpl implements GioHangService {
     private GioHangRepository gioHangRepository;
     @Override
     public GioHangDTO createGioHang(GioHangDTO gioHangDTO) {
-        return null;
+        GioHang gioHang = GioHangMapper.mapToGioHang(gioHangDTO);
+        GioHang savedGioHang = gioHangRepository.save(gioHang);
+        return GioHangMapper.mapToGioHangDTO(savedGioHang);
     }
 
     @Override

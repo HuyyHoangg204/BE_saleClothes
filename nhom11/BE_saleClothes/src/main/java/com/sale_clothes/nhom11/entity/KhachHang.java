@@ -18,35 +18,36 @@ import lombok.Setter;
 public class KhachHang {
     @Id
     @Column(name = "kh_username")
-    private String kh_userName;
+    private String khUserName;
 
-    @Column(name = "kh_password")
-    private String kh_passWord;
+    @Column(name = "kh_password",length = 255)
+
+    private String khPassWord;
 
     @Column(name = "kh_ten")
-    private String kh_ten;
+    private String khTen;
 
-    @Column(name = "kh_gioitinh")
-    private Boolean kh_gioiTinh;
+    @Column(name = "kh_gioitinh", nullable = true)
+    private Boolean khGioiTinh;
 
-    @Column(name = "kh_diachi")
-    private String kh_diaChi;
+    @Column(name = "kh_diachi", nullable = true)
+    private String khDiaChi;
 
-    @Column(name = "kh_dienthoai")
-    private String kh_dienThoai;
+    @Column(name = "kh_dienthoai", nullable = true)
+    private String khDienThoai;
 
     @Column(name = "kh_email")
-    private String kh_email;
+    private String khEmail;
 
-    @Column(name = "kh_ngaysinh")
-    private int kh_ngaySinh;
+    @Column(name = "kh_ngaysinh", nullable = true)
+    private int khNgaySinh;
 
-    @Column(name = "kh_thangsinh")
-    private int kh_thangSinh;
+    @Column(name = "kh_thangsinh", nullable = true)
+    private int khThangSinh;
 
-    @Column(name = "kh_namsinh")
-    private int kh_namSinh;
+    @Column(name = "kh_namsinh", nullable = true)
+    private int khNamSinh;
 
-    @Column(name = "kh_cmnd")
-    private String kh_cmnd;
+    @Column(name = "kh_cmnd", nullable = true)
+    private String khCmnd;
 }
