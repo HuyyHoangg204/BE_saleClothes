@@ -1,6 +1,7 @@
 package com.sale_clothes.nhom11.controller;
 
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
+import com.sale_clothes.nhom11.dto.response.ApiResponse;
 import com.sale_clothes.nhom11.service.impl.KhachHangServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,11 @@ public class KhachHangController {
     private KhachHangServiceImpl khachHangServiceImpl;
 
     @PostMapping("/add-khachhang")
-    public ResponseEntity<KhachHangDTO> createKhachHang(@RequestBody @Valid KhachHangDTO khachHangDTO) {
+    public ApiResponse<KhachHangDTO> createKhachHang(@RequestBody @Valid KhachHangDTO khachHangDTO) {
+        ApiResponse<KhachHangDTO> apiResponse = new ApiResponse<>();
         KhachHangDTO savedKhachHang = khachHangServiceImpl.createKhachHang(khachHangDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedKhachHang);
+        apiResponse.setResult(savedKhachHang);
+        return apiResponse;
     }
 
     @GetMapping("/khachhangs")

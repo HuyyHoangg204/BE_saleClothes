@@ -1,8 +1,10 @@
 package com.sale_clothes.nhom11.exception;
 
 
+import com.sale_clothes.nhom11.dto.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,15 +28,34 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ErrorResponse exceptionHandler(Exception ex, HttpServletRequest req) {
-        return new ErrorResponse(req.getMethod(),HttpStatus.BAD_REQUEST,ex.getMessage());
+    public ResponseEntity<ApiResponse> exceptionHandler(Exception ex) {
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(1001);
+        apiResponse.setMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse> runtimeExceptionHandler(RuntimeException ex) {
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(1001);
+        apiResponse.setMessage(ex.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
+    }@ExceptionHandler(AppException.class)
+    public ResponseEntity<ApiResponse> AppExceptionHandler(AppException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest req) {
         return new ErrorResponse(req.getMethod(),HttpStatus.BAD_REQUEST,ex.getFieldError().getDefaultMessage());
     }
+
 
 
 
