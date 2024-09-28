@@ -16,7 +16,8 @@ public class KhachHangMapper {
                 khachHang.getKhNgaySinh(),
                 khachHang.getKhThangSinh(),
                 khachHang.getKhNamSinh(),
-                khachHang.getKhCmnd()
+                khachHang.getKhCmnd(),
+                khachHang.getRoles()
         );
     }
 
@@ -32,7 +33,8 @@ public class KhachHangMapper {
                 khachHangDTO.getKhNgaySinh(),
                 khachHangDTO.getKh_thangSinh(),
                 khachHangDTO.getKh_namSinh(),
-                khachHangDTO.getKh_cmnd()
+                khachHangDTO.getKh_cmnd(),
+                khachHangDTO.getRoles()
         );
     }
 }

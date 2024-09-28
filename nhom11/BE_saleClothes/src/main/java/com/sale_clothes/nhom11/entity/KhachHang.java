@@ -1,53 +1,57 @@
 package com.sale_clothes.nhom11.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name = "khach_hang")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhachHang {
     @Id
     @Column(name = "kh_username")
-    private String khUserName;
+    String khUserName;
 
     @Column(name = "kh_password",length = 255)
 
-    private String khPassWord;
+    String khPassWord;
 
     @Column(name = "kh_ten")
-    private String khTen;
+    String khTen;
 
     @Column(name = "kh_gioitinh", nullable = true)
-    private Boolean khGioiTinh;
+    Boolean khGioiTinh;
 
     @Column(name = "kh_diachi", nullable = true)
-    private String khDiaChi;
+    String khDiaChi;
 
     @Column(name = "kh_dienthoai", nullable = true)
-    private String khDienThoai;
+    String khDienThoai;
 
     @Column(name = "kh_email")
-    private String khEmail;
+    String khEmail;
 
     @Column(name = "kh_ngaysinh", nullable = true)
-    private int khNgaySinh;
+    int khNgaySinh;
 
     @Column(name = "kh_thangsinh", nullable = true)
-    private int khThangSinh;
+    int khThangSinh;
 
     @Column(name = "kh_namsinh", nullable = true)
-    private int khNamSinh;
+    int khNamSinh;
 
     @Column(name = "kh_cmnd", nullable = true)
-    private String khCmnd;
+    String khCmnd;
+
+    @ElementCollection
+    @CollectionTable(name = "khachhang_roles", joinColumns = @JoinColumn(name = "kh_username"))
+    @Column(name = "role")
+    Set<String> roles;
 }

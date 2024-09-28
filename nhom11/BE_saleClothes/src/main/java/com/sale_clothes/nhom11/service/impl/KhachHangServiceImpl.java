@@ -2,28 +2,34 @@ package com.sale_clothes.nhom11.service.impl;
 
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.entity.KhachHang;
+import com.sale_clothes.nhom11.enums.Role;
 import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.exception.UserAlreadyExistException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
+
 public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public KhachHangDTO createKhachHang(KhachHangDTO khachHangDTO) {
 
         //Encode password
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
         khachHangDTO.setKhPassWord(passwordEncoder.encode(khachHangDTO.getKhPassWord()));
 
 
@@ -34,6 +40,9 @@ public class KhachHangServiceImpl implements KhachHangService {
         if(khachHangRepository.existsByKhEmail(khachHang.getKhEmail())) {
             throw new UserAlreadyExistException("Email đã tồn tại!");
         }
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.CUSTOMER.name());
+        khachHang.setRoles(roles);
         KhachHang savedKhachHang = khachHangRepository.save(khachHang);
         return KhachHangMapper.mapToKhachHangDTO(savedKhachHang);
 

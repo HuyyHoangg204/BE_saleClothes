@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.Scope;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -45,4 +47,5 @@ public class KhachHangDTO {
 
 
     private String kh_cmnd;
+    private Set<String> roles;
 }
