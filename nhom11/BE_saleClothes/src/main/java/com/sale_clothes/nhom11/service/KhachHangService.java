@@ -9,5 +9,6 @@ public interface KhachHangService {
     List<KhachHangDTO> getAllKhachHang();
     KhachHangDTO updateKhachHang(String id,KhachHangDTO khachHangDTO);
     KhachHangDTO getKhachHangById(String id);
+    KhachHangDTO getMyInfo();
     void deleteKhachHang(String id);
 }

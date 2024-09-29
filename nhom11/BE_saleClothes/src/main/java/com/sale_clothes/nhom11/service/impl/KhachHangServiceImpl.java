@@ -3,6 +3,8 @@ package com.sale_clothes.nhom11.service.impl;
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.entity.KhachHang;
 import com.sale_clothes.nhom11.enums.Role;
+import com.sale_clothes.nhom11.exception.AppException;
+import com.sale_clothes.nhom11.exception.ErrorCode;
 import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.exception.UserAlreadyExistException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
@@ -10,6 +12,7 @@ import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,6 +77,15 @@ public class KhachHangServiceImpl implements KhachHangService {
 
         }
          throw new NotFoundException("Không tìm thấy khách hàng!");
+    }
+
+    @Override
+    public KhachHangDTO getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        KhachHang khachHang = khachHangRepository.findById(name).orElseThrow(() -> new AppException(ErrorCode.USER_EXISTED));
+        return KhachHangMapper.mapToKhachHangDTO(khachHang);
     }
 
     @Override

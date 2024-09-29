@@ -106,11 +106,11 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(KhachHangDTO khachHangDTO) {
         KhachHang khachHang = khachHangRepository.findById(KhachHangMapper.mapToKhachHang(khachHangDTO).getKhUserName())
-                .orElseThrow(() -> new NotFoundException("Username không tồn tại!"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_EXISTED));
 
         boolean authenticated = passwordEncoder.matches(KhachHangMapper.mapToKhachHang(khachHangDTO).getKhPassWord(), khachHang.getKhPassWord());
         if(!authenticated)
-           throw new AppException(ErrorCode.UNAUTHENTICATED);
+           throw new AppException(ErrorCode.PASSWORD_FAILED);
 
         String token = generateToken(khachHangDTO);
 

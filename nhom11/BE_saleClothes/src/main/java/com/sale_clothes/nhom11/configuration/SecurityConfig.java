@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,6 +23,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     @Value("${jwt.signerKey}")
     @NonFinal
@@ -39,7 +41,7 @@ public class SecurityConfig {
         //Phân quyền truy cập
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/khachhangs").hasRole(Role.ADMIN.name())
+//                        .requestMatchers(HttpMethod.GET, "/api/khachhangs").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated());
 
         //OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token
