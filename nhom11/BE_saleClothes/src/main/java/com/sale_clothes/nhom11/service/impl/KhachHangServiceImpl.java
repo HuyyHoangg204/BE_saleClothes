@@ -6,7 +6,6 @@ import com.sale_clothes.nhom11.enums.Role;
 import com.sale_clothes.nhom11.exception.AppException;
 import com.sale_clothes.nhom11.exception.ErrorCode;
 import com.sale_clothes.nhom11.exception.NotFoundException;
-import com.sale_clothes.nhom11.exception.UserAlreadyExistException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,19 +30,16 @@ public class KhachHangServiceImpl implements KhachHangService {
     private PasswordEncoder passwordEncoder;
     @Override
     public KhachHangDTO createKhachHang(KhachHangDTO khachHangDTO) {
-
-        //Encode password
-
-        khachHangDTO.setKhPassWord(passwordEncoder.encode(khachHangDTO.getKhPassWord()));
-
-
         KhachHang khachHang = KhachHangMapper.mapToKhachHang(khachHangDTO);
         if(khachHangRepository.existsByKhUserName(khachHang.getKhUserName())) {
-            throw new UserAlreadyExistException("Username đã tồn tại!");
+            throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         }
         if(khachHangRepository.existsByKhEmail(khachHang.getKhEmail())) {
-            throw new UserAlreadyExistException("Email đã tồn tại!");
+            throw new AppException(ErrorCode.EMAIL_AlREADY_EXISTED);
         }
+        //Encode password
+        khachHangDTO.setKhPassWord(passwordEncoder.encode(khachHangDTO.getKhPassWord()));
+
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.CUSTOMER.name());
         khachHang.setRoles(roles);
@@ -76,7 +73,7 @@ public class KhachHangServiceImpl implements KhachHangService {
             }
 
         }
-         throw new NotFoundException("Không tìm thấy khách hàng!");
+         throw new NotFoundException("Không tìm thấy user");
     }
 
     @Override
