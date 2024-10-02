@@ -37,8 +37,8 @@ public class SecurityConfig {
             "/api/add-khachhang",
             "/auth/token",
             "/auth/introspect",
-            "/auth/logout"
-
+            "/auth/logout",
+            "/auth/refresh"
     };
 
 

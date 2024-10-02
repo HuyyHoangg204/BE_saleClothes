@@ -9,6 +9,7 @@ import com.nimbusds.jwt.SignedJWT;
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.dto.request.IntrospectRequest;
 import com.sale_clothes.nhom11.dto.request.LogoutRequest;
+import com.sale_clothes.nhom11.dto.request.RefreshRequest;
 import com.sale_clothes.nhom11.dto.response.AuthenticationResponse;
 import com.sale_clothes.nhom11.dto.response.IntrospectResponse;
 import com.sale_clothes.nhom11.entity.InvalidatedToken;
@@ -151,6 +152,31 @@ public class AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
         return signedJWT;
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
+        var signJWT = verifyToken(request.getToken());
+
+        var jit = signJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        var username = signJWT.getJWTClaimsSet().getSubject();
+        var khachHang = khachHangRepository.findById(username).orElseThrow(
+                () -> new AppException(ErrorCode.UNAUTHENTICATED)
+        );
+        String token = generateToken(KhachHangMapper.mapToKhachHangDTO(khachHang));
+
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .authenticated(true)
+                .build();
     }
 
     public void logout(LogoutRequest request) throws ParseException, JOSEException {

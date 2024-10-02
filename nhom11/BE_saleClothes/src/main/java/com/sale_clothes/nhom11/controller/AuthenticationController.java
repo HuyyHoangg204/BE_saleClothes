@@ -6,6 +6,7 @@ import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.dto.request.AuthenticationRequest;
 import com.sale_clothes.nhom11.dto.request.IntrospectRequest;
 import com.sale_clothes.nhom11.dto.request.LogoutRequest;
+import com.sale_clothes.nhom11.dto.request.RefreshRequest;
 import com.sale_clothes.nhom11.dto.response.ApiResponse;
 import com.sale_clothes.nhom11.dto.response.AuthenticationResponse;
 import com.sale_clothes.nhom11.dto.response.IntrospectResponse;
@@ -44,6 +45,14 @@ public class AuthenticationController {
     public ApiResponse<InvalidatedToken> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
         authenticationService.logout(request);
         return ApiResponse.<InvalidatedToken>builder()
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    public ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+        AuthenticationResponse authenticationResponse = authenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationResponse)
                 .build();
     }
 }
