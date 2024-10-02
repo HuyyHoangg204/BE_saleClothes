@@ -30,10 +30,14 @@ public class SecurityConfig {
     @Value("${jwt.signerKey}")
     @NonFinal
     private String signerKey;
+
+    @Autowired
+    private CustomJwtDecoder jwtDecoder;
     private final String[] PUBLIC_ENDPOINT = {
             "/api/add-khachhang",
             "/auth/token",
             "/auth/introspect",
+            "/auth/logout"
 
     };
 
@@ -52,7 +56,7 @@ public class SecurityConfig {
         //OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder())
+                        jwtConfigurer.decoder(jwtDecoder)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())) //convert scopes to roles
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())); //handle exception 401 unauthorized
 
@@ -74,14 +78,14 @@ public class SecurityConfig {
     }
 
     //Cấu hình JWT được giải mã
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
+//    @Bean
+//    JwtDecoder jwtDecoder() {
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+//        return NimbusJwtDecoder
+//                .withSecretKey(secretKeySpec)
+//                .macAlgorithm(MacAlgorithm.HS512)
+//                .build();
+//    }
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);

@@ -7,38 +7,39 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
-import com.sale_clothes.nhom11.dto.request.AuthenticationRequest;
 import com.sale_clothes.nhom11.dto.request.IntrospectRequest;
+import com.sale_clothes.nhom11.dto.request.LogoutRequest;
 import com.sale_clothes.nhom11.dto.response.AuthenticationResponse;
 import com.sale_clothes.nhom11.dto.response.IntrospectResponse;
+import com.sale_clothes.nhom11.entity.InvalidatedToken;
 import com.sale_clothes.nhom11.entity.KhachHang;
 import com.sale_clothes.nhom11.exception.AppException;
 import com.sale_clothes.nhom11.exception.ErrorCode;
-import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
+import com.sale_clothes.nhom11.repository.InvalidatedTokenRepository;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import lombok.experimental.NonFinal;
 
 import lombok.extern.slf4j.Slf4j;
-import netscape.javascript.JSException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.logging.ErrorManager;
+
 
 @Service
 @Slf4j
 public class AuthenticationService {
     @Autowired
     private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private InvalidatedTokenRepository invalidatedTokenRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -53,7 +54,6 @@ public class AuthenticationService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
 
-
         // Generate payload
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -64,6 +64,7 @@ public class AuthenticationService {
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli() //Instant.now() lấy thời gian hiện tại,
                                                                          // sau đó .plus(1, ChronoUnit.HOURS) sẽ cộng thêm 1 giờ vào thời gian hiện tại, tạo ra một thời điểm tương lai là 1 giờ sau.
                 ))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope",buildScope(khachHangDTO))
                 .build();
         //Tạo một đối tượng Payload từ JWTClaimsSet đã được chuyển đổi thành JSONObject
@@ -85,21 +86,17 @@ public class AuthenticationService {
     public IntrospectResponse introspectResponse(IntrospectRequest introspectRequest) throws JOSEException,ParseException{
         //  Get token
             String token = introspectRequest.getToken();
-            // tạo đôi tượng để xác thực chữ ký của token
-            JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-
-            //Phân tích chuỗi token thành một đối tượng SignedJWT
-            SignedJWT signedJWT = SignedJWT.parse(token);
-
-            //Lấy thời gian hết hạn từ claims của SignedJWT
-            Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-            //Kiếm tra tinhs hợp lệ của token
-            boolean verified = signedJWT.verify(verifier);
+           try {
+               verifyToken(token);
+           } catch (AppException ex) {
+               return IntrospectResponse.builder()
+                       .valid(false)
+                       .build();
+           }
 
 
             return  IntrospectResponse.builder()
-                    .valid(verified && expiryTime.after(new Date())) // kiểm tra chữ ký và so sánh thời gian hết hạn với thời thơi hiện tại
+                    .valid(true) // kiểm tra chữ ký và so sánh thời gian hết hạn với thời thơi hiện tại
                     .build();
 
     }
@@ -135,4 +132,39 @@ public class AuthenticationService {
         return scopeBuilder.toString().trim(); // Xóa khoảng trắng thừa ở cuối
     }
 
+    private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        //Phân tích chuỗi token thành một đối tượng SignedJWT
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        //Lấy thời gian hết hạn từ claims của SignedJWT
+        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        //Kiếm tra tinhs hợp lệ của token
+        boolean verified = signedJWT.verify(verifier);
+
+        if(!(verified && expiryTime.after(new Date()))) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
+        }
+        return signedJWT;
+    }
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+
+        var signToken = verifyToken(request.getToken());
+
+        String jwtTokenId = signToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jwtTokenId)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+    }
 }
