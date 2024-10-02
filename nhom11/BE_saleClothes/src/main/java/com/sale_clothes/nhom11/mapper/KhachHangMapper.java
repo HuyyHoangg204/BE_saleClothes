@@ -17,8 +17,7 @@ public class KhachHangMapper {
                 khachHang.getKhThangSinh(),
                 khachHang.getKhNamSinh(),
                 khachHang.getKhCmnd(),
-                khachHang.getRoles()
-        );
+                khachHang.getRoles());
     }
 
     public static KhachHang mapToKhachHang(KhachHangDTO khachHangDTO) {
@@ -34,8 +33,6 @@ public class KhachHangMapper {
                 khachHangDTO.getKh_thangSinh(),
                 khachHangDTO.getKh_namSinh(),
                 khachHangDTO.getKh_cmnd(),
-                khachHangDTO.getRoles()
-        );
+                khachHangDTO.getRoles());
     }
 }
-

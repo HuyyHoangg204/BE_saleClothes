@@ -1,19 +1,21 @@
 package com.sale_clothes.nhom11.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sale_clothes.nhom11.dto.GioHangDTO;
 import com.sale_clothes.nhom11.entity.GioHang;
 import com.sale_clothes.nhom11.mapper.GioHangMapper;
 import com.sale_clothes.nhom11.repository.GioHangRepository;
 import com.sale_clothes.nhom11.service.GioHangService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class GioHangServiceImpl implements GioHangService {
     @Autowired
     private GioHangRepository gioHangRepository;
+
     @Override
     public GioHangDTO createGioHang(GioHangDTO gioHangDTO) {
         GioHang gioHang = GioHangMapper.mapToGioHang(gioHangDTO);
@@ -37,7 +39,5 @@ public class GioHangServiceImpl implements GioHangService {
     }
 
     @Override
-    public void deleteGioHang(GioHangDTO gioHangDTO) {
-
-    }
+    public void deleteGioHang(GioHangDTO gioHangDTO) {}
 }

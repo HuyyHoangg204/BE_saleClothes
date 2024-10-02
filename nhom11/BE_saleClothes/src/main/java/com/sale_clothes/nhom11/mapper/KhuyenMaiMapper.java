@@ -5,13 +5,12 @@ import com.sale_clothes.nhom11.entity.KhuyenMai;
 
 public class KhuyenMaiMapper {
     public static KhuyenMaiDTO mapToKhuyenMaiDTO(KhuyenMai khuyenMai) {
-        return  new KhuyenMaiDTO(
+        return new KhuyenMaiDTO(
                 khuyenMai.getKh_ma(),
                 khuyenMai.getKm_ten(),
                 khuyenMai.getKm_noiDung(),
                 khuyenMai.getKm_tuNgay(),
-                khuyenMai.getKm_denNgay()
-        );
+                khuyenMai.getKm_denNgay());
     }
 
     public static KhuyenMai mapToKhuyenMai(KhuyenMaiDTO khuyenMaiDTO) {
@@ -20,7 +19,6 @@ public class KhuyenMaiMapper {
                 khuyenMaiDTO.getKm_ten(),
                 khuyenMaiDTO.getKm_noiDung(),
                 khuyenMaiDTO.getKm_tuNgay(),
-                khuyenMaiDTO.getKm_denNgay()
-        );
+                khuyenMaiDTO.getKm_denNgay());
     }
 }

@@ -1,10 +1,11 @@
 package com.sale_clothes.nhom11.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +20,7 @@ public class KhachHang {
     @Column(name = "kh_username")
     String khUserName;
 
-    @Column(name = "kh_password",length = 255)
-
+    @Column(name = "kh_password", length = 255)
     String khPassWord;
 
     @Column(name = "kh_ten")

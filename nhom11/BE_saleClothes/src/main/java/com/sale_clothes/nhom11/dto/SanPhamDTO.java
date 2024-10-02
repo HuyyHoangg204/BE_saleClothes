@@ -1,25 +1,24 @@
 package com.sale_clothes.nhom11.dto;
 
+import java.time.LocalDate;
+
 import com.sale_clothes.nhom11.entity.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-
 public class SanPhamDTO {
     private String sp_ma;
     private String sp_ten;
     private double sp_gia;
     private double sp_giaCu;
-    private  String sp_moTa_ngan;
+    private String sp_moTa_ngan;
     private String sp_moTa_chiTiet;
     private LocalDate sp_ngayCapNhat;
     private int sp_soLuong;
@@ -30,8 +29,16 @@ public class SanPhamDTO {
     private GioHang gh_ma;
     private CuaHang ch_ma;
 
-
-    public SanPhamDTO(String sp_ma, String sp_ten, double sp_gia, double sp_giaCu, String sp_moTa_ngan, String sp_moTa_chiTiet, LocalDate sp_ngayCapNhat, int sp_soLuong, String sp_image) {
+    public SanPhamDTO(
+            String sp_ma,
+            String sp_ten,
+            double sp_gia,
+            double sp_giaCu,
+            String sp_moTa_ngan,
+            String sp_moTa_chiTiet,
+            LocalDate sp_ngayCapNhat,
+            int sp_soLuong,
+            String sp_image) {
         this.sp_ma = sp_ma;
         this.sp_ten = sp_ten;
         this.sp_gia = sp_gia;

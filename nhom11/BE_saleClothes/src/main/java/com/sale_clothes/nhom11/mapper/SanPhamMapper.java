@@ -14,13 +14,11 @@ public class SanPhamMapper {
                 sanPham.getSp_moTa_chiTiet(),
                 sanPham.getSp_ngayCapNhat(),
                 sanPham.getSp_soLuong(),
-                sanPham.getSp_image()
-
-        );
+                sanPham.getSp_image());
     }
 
     public static SanPham mapToSanPham(SanPhamDTO sanPhamDTO) {
-        return  new SanPham(
+        return new SanPham(
                 sanPhamDTO.getSp_ma(),
                 sanPhamDTO.getSp_ten(),
                 sanPhamDTO.getSp_gia(),
@@ -29,8 +27,6 @@ public class SanPhamMapper {
                 sanPhamDTO.getSp_moTa_chiTiet(),
                 sanPhamDTO.getSp_ngayCapNhat(),
                 sanPhamDTO.getSp_soLuong(),
-                sanPhamDTO.getSp_image()
-
-        );
+                sanPhamDTO.getSp_image());
     }
 }

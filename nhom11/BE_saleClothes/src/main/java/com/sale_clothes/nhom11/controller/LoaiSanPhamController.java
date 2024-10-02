@@ -1,11 +1,12 @@
 package com.sale_clothes.nhom11.controller;
 
-import com.sale_clothes.nhom11.dto.LoaiSanPhamDTO;
-import com.sale_clothes.nhom11.service.impl.LoaiSanPhamServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.sale_clothes.nhom11.dto.LoaiSanPhamDTO;
+import com.sale_clothes.nhom11.service.impl.LoaiSanPhamServiceImpl;
 
 @RestController
 @RequestMapping("/api")

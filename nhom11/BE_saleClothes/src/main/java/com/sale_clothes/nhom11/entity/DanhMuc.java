@@ -1,7 +1,7 @@
 package com.sale_clothes.nhom11.entity;
 
-
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,4 @@ public class DanhMuc {
 
     @Column(name = "dm_ten")
     private String dm_ten;
-
-
 }

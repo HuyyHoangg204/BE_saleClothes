@@ -1,4 +1,5 @@
 package core;
+
 @lombok.Data
 @lombok.AllArgsConstructor
 public class RespondObject {
@@ -8,11 +9,11 @@ public class RespondObject {
 
     public static void main(String[] args) {
         String json = """
-                {
-                    "status": "false",
-                    "messsage": "Email da ton tai",
-                    "data":""
-                
-                }""";
+				{
+					"status": "false",
+					"messsage": "Email da ton tai",
+					"data":""
+
+				}""";
     }
 }

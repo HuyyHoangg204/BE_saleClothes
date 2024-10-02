@@ -15,8 +15,10 @@ public class DanhMucConMapper {
         return new DanhMucConDTO(
                 danhMucCon.getDmc_ma(),
                 danhMucCon.getDmc_ten(),
-                danhMucCon.getDm_ma() != null ? danhMucCon.getDm_ma().getDm_ma() : null // Lấy mã danh mục từ đối tượng DanhMuc
-        );
+                danhMucCon.getDm_ma() != null
+                        ? danhMucCon.getDm_ma().getDm_ma()
+                        : null // Lấy mã danh mục từ đối tượng DanhMuc
+                );
     }
 
     // Phương thức để chuyển đổi từ DanhMucConDTO sang DanhMucCon

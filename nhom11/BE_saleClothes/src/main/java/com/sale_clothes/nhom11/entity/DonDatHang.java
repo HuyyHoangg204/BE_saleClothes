@@ -1,14 +1,14 @@
 package com.sale_clothes.nhom11.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +39,5 @@ public class DonDatHang {
     private KhachHang kh_userName;
 
     @OneToMany(mappedBy = "httt_ma")
-
     private List<HinhThucThanhToan> httt_ma;
 }

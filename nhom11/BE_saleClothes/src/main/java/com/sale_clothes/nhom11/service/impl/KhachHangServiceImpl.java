@@ -1,5 +1,14 @@
 package com.sale_clothes.nhom11.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.entity.KhachHang;
 import com.sale_clothes.nhom11.enums.Role;
@@ -9,35 +18,25 @@ import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
-
 public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public KhachHangDTO createKhachHang(KhachHangDTO khachHangDTO) {
         KhachHang khachHang = KhachHangMapper.mapToKhachHang(khachHangDTO);
-        if(khachHangRepository.existsByKhUserName(khachHang.getKhUserName())) {
+        if (khachHangRepository.existsByKhUserName(khachHang.getKhUserName())) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);
         }
-        if(khachHangRepository.existsByKhEmail(khachHang.getKhEmail())) {
+        if (khachHangRepository.existsByKhEmail(khachHang.getKhEmail())) {
             throw new AppException(ErrorCode.EMAIL_AlREADY_EXISTED);
         }
-        //Encode password
+        // Encode password
         khachHangDTO.setKhPassWord(passwordEncoder.encode(khachHangDTO.getKhPassWord()));
 
         HashSet<String> roles = new HashSet<>();
@@ -45,7 +44,6 @@ public class KhachHangServiceImpl implements KhachHangService {
         khachHang.setRoles(roles);
         KhachHang savedKhachHang = khachHangRepository.save(khachHang);
         return KhachHangMapper.mapToKhachHangDTO(savedKhachHang);
-
     }
 
     @Override
@@ -66,14 +64,13 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public KhachHangDTO getKhachHangById(String username) {
         List<KhachHang> listKhachHang = khachHangRepository.findAll();
-        for(KhachHang khachHang : listKhachHang) {
+        for (KhachHang khachHang : listKhachHang) {
             KhachHangDTO khachHangDTO = KhachHangMapper.mapToKhachHangDTO(khachHang);
-            if(username.equals((khachHangDTO.getKhUserName()))) {
+            if (username.equals((khachHangDTO.getKhUserName()))) {
                 return khachHangDTO;
             }
-
         }
-         throw new NotFoundException("Không tìm thấy user");
+        throw new NotFoundException("Không tìm thấy user");
     }
 
     @Override
@@ -81,12 +78,11 @@ public class KhachHangServiceImpl implements KhachHangService {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        KhachHang khachHang = khachHangRepository.findById(name).orElseThrow(() -> new AppException(ErrorCode.USER_EXISTED));
+        KhachHang khachHang =
+                khachHangRepository.findById(name).orElseThrow(() -> new AppException(ErrorCode.USER_EXISTED));
         return KhachHangMapper.mapToKhachHangDTO(khachHang);
     }
 
     @Override
-    public void deleteKhachHang(String id) {
-
-    }
+    public void deleteKhachHang(String id) {}
 }

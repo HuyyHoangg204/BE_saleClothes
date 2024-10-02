@@ -1,20 +1,20 @@
 package com.sale_clothes.nhom11.entity;
 
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
 @Entity
-@Table(name="san_pham")
+@Table(name = "san_pham")
 public class SanPham {
     @Id
     @Column(name = "sp_ma")
@@ -30,7 +30,7 @@ public class SanPham {
     private double sp_giaCu;
 
     @Column(name = "sp_mota_ngan")
-    private  String sp_moTa_ngan;
+    private String sp_moTa_ngan;
 
     @Column(name = "sp_mota_chitiet")
     private String sp_moTa_chiTiet;
@@ -64,7 +64,16 @@ public class SanPham {
     @JoinColumn(name = "ch_ma")
     private CuaHang ch_ma;
 
-    public SanPham(String sp_ma, String sp_ten, double sp_gia, double sp_giaCu, String sp_moTa_ngan, String sp_moTa_chiTiet, LocalDate sp_ngayCapNhat, int sp_soLuong, String sp_image) {
+    public SanPham(
+            String sp_ma,
+            String sp_ten,
+            double sp_gia,
+            double sp_giaCu,
+            String sp_moTa_ngan,
+            String sp_moTa_chiTiet,
+            LocalDate sp_ngayCapNhat,
+            int sp_soLuong,
+            String sp_image) {
         this.sp_ma = sp_ma;
         this.sp_ten = sp_ten;
         this.sp_gia = sp_gia;

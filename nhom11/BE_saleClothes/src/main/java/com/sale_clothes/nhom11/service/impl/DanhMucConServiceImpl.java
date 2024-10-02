@@ -1,21 +1,22 @@
 package com.sale_clothes.nhom11.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.sale_clothes.nhom11.dto.DanhMucConDTO;
 import com.sale_clothes.nhom11.entity.DanhMucCon;
 import com.sale_clothes.nhom11.mapper.DanhMucConMapper;
-import com.sale_clothes.nhom11.mapper.DanhMucMapper;
 import com.sale_clothes.nhom11.repository.DanhMucConRepository;
 import com.sale_clothes.nhom11.service.DanhMucConService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
 @Service
 public class DanhMucConServiceImpl implements DanhMucConService {
     @Autowired
     private DanhMucConRepository danhMucConRepository;
+
     @Override
     public DanhMucConDTO createDanhMucCon(DanhMucConDTO danhMucConDTO) {
         DanhMucCon danhMucCon = DanhMucConMapper.mapToDanhMucCon(danhMucConDTO);
@@ -28,7 +29,7 @@ public class DanhMucConServiceImpl implements DanhMucConService {
 
         List<DanhMucCon> listDanhMucCon = danhMucConRepository.findAll();
         List<DanhMucConDTO> listDanhMucConDTO = new ArrayList<DanhMucConDTO>();
-        for(DanhMucCon danhMucCon : listDanhMucCon) {
+        for (DanhMucCon danhMucCon : listDanhMucCon) {
             listDanhMucConDTO.add(DanhMucConMapper.mapToDanhMucConDTO(danhMucCon));
         }
         return listDanhMucConDTO;
@@ -45,7 +46,5 @@ public class DanhMucConServiceImpl implements DanhMucConService {
     }
 
     @Override
-    public void deleteDanhMucCon(DanhMucConDTO danhMucConDTO) {
-
-    }
+    public void deleteDanhMucCon(DanhMucConDTO danhMucConDTO) {}
 }
