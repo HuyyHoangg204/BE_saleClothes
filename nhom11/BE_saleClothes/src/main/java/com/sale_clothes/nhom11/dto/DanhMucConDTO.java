@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DanhMucConDTO {
-    private Integer dmc_ma;
-    private String dmc_ten;
-    private Integer dm_ma;
+    private Integer dmcMa;
+    private String dmcTen;
+    private int dmMa;
 }

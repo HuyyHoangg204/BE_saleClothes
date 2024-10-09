@@ -17,12 +17,12 @@ public class DanhMucCon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dmc_ma")
-    private Integer dmc_ma;
+    private Integer dmcMa;
 
     @Column(name = "dmc_ten")
-    private String dmc_ten;
+    private String dmcTen;
 
     @ManyToOne
     @JoinColumn(name = "dm_ma")
-    private DanhMuc dm_ma;
+    private DanhMuc dmMa;
 }

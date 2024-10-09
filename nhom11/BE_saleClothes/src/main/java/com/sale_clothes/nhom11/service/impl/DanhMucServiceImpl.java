@@ -26,7 +26,6 @@ public class DanhMucServiceImpl implements DanhMucService {
     public DanhMucDTO createDanhMucDTO(DanhMucDTO danhMucDTO) {
         DanhMuc danhMuc = DanhMucMapper.mapToDanhMuc(danhMucDTO);
         DanhMuc savedDanhMuc = danhMucRepository.save(danhMuc);
-
         return DanhMucMapper.mapToDanhMucDTO(savedDanhMuc);
     }
 

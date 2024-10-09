@@ -14,11 +14,13 @@ import com.sale_clothes.nhom11.repository.KhachHangRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class ApplicationInitConfig {
+public class ApplicationInitConfig implements WebMvcConfigurer {
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -38,5 +40,11 @@ public class ApplicationInitConfig {
                 khachHangRepository.save(admin);
             }
         };
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+
     }
 }

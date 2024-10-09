@@ -9,6 +9,8 @@ public interface DanhMucConService {
 
     List<DanhMucConDTO> getAllDanhMucCon();
 
+    List<DanhMucConDTO> getDanhMucConByDmMa(Integer dmMa);
+
     DanhMucConDTO getDanhMucConById(Integer id);
 
     DanhMucConDTO updateDanhMucCon(Integer id, DanhMucConDTO danhMucConDTO);

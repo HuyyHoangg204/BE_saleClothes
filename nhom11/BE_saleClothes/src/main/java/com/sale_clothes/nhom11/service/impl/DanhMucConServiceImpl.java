@@ -36,6 +36,16 @@ public class DanhMucConServiceImpl implements DanhMucConService {
     }
 
     @Override
+    public List<DanhMucConDTO> getDanhMucConByDmMa(Integer dmMa) {
+        List<DanhMucCon> danhMucCons = danhMucConRepository.getDanhMucConByDmMa(dmMa);
+        ArrayList<DanhMucConDTO> danhMucConDTOS = new ArrayList<>();
+        for (DanhMucCon danhMucCon : danhMucCons) {
+            danhMucConDTOS.add((DanhMucConMapper.mapToDanhMucConDTO(danhMucCon)));
+        }
+        return danhMucConDTOS;
+    }
+
+    @Override
     public DanhMucConDTO getDanhMucConById(Integer id) {
         return null;
     }

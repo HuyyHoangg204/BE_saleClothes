@@ -17,8 +17,11 @@ public class DanhMuc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dm_ma")
-    private Integer dm_ma;
+    private Integer dmMa;
 
     @Column(name = "dm_ten")
-    private String dm_ten;
+    private String dmTen;
+
+    @Column(name  = "dm_type")
+    private String dmType;
 }

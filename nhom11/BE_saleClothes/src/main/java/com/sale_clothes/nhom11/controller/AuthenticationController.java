@@ -18,12 +18,11 @@ import com.sale_clothes.nhom11.service.impl.AuthenticationService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
 public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping("/token")
+    @PostMapping("/login")
     public ApiResponse<AuthenticationResponse> authenticationResponse(@RequestBody KhachHangDTO khachHangDTO) {
         ApiResponse<AuthenticationResponse> response = new ApiResponse<>();
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(khachHangDTO);

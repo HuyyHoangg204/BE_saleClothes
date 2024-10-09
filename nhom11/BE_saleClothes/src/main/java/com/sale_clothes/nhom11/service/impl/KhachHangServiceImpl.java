@@ -37,7 +37,7 @@ public class KhachHangServiceImpl implements KhachHangService {
             throw new AppException(ErrorCode.EMAIL_AlREADY_EXISTED);
         }
         // Encode password
-        khachHangDTO.setKhPassWord(passwordEncoder.encode(khachHangDTO.getKhPassWord()));
+        khachHang.setKhPassWord(passwordEncoder.encode(khachHang.getKhPassWord()));
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.CUSTOMER.name());

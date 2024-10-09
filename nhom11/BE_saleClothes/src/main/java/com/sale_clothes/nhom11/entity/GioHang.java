@@ -17,9 +17,13 @@ public class GioHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gh_ma")
-    private Integer gh_ma;
+    private Integer ghMa;
 
     @OneToOne
     @JoinColumn(name = "kh_username")
-    private KhachHang kh_userName;
+    private KhachHang khUserName;
+
+
+
+
 }

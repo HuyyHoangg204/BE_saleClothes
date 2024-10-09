@@ -1,5 +1,6 @@
 package com.sale_clothes.nhom11.dto.response;
 
+import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

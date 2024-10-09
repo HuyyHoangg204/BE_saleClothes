@@ -10,7 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DanhMucDTO {
-    private Integer dm_ma;
+    private Integer dmMa;
 
-    private String dm_ten;
+    private String dmTen;
+
+    private String dmType;
 }

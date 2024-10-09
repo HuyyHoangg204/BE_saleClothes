@@ -13,10 +13,10 @@ public class DanhMucConMapper {
         }
 
         return new DanhMucConDTO(
-                danhMucCon.getDmc_ma(),
-                danhMucCon.getDmc_ten(),
-                danhMucCon.getDm_ma() != null
-                        ? danhMucCon.getDm_ma().getDm_ma()
+                danhMucCon.getDmcMa(),
+                danhMucCon.getDmcTen(),
+                danhMucCon.getDmMa() != null
+                        ? danhMucCon.getDmMa().getDmMa()
                         : null // Lấy mã danh mục từ đối tượng DanhMuc
                 );
     }
@@ -28,13 +28,13 @@ public class DanhMucConMapper {
         }
 
         DanhMucCon danhMucCon = new DanhMucCon();
-        danhMucCon.setDmc_ma(danhMucConDTO.getDmc_ma());
-        danhMucCon.setDmc_ten(danhMucConDTO.getDmc_ten());
+        danhMucCon.setDmcMa(danhMucConDTO.getDmcMa());
+        danhMucCon.setDmcTen(danhMucConDTO.getDmcTen());
 
         // Tạo đối tượng DanhMuc nếu cần
         DanhMuc danhMuc = new DanhMuc();
-        danhMuc.setDm_ma(danhMucConDTO.getDm_ma()); // Thiết lập mã danh mục
-        danhMucCon.setDm_ma(danhMuc); // Thiết lập đối tượng DanhMuc vào danhMucCon
+        danhMuc.setDmMa(danhMucConDTO.getDmMa()); // Thiết lập mã danh mục
+        danhMucCon.setDmMa(danhMuc); // Thiết lập đối tượng DanhMuc vào danhMucCon
 
         return danhMucCon;
     }
