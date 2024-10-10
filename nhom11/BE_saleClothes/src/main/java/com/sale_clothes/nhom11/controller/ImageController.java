@@ -1,7 +1,7 @@
 package com.sale_clothes.nhom11.controller;
 
-import com.sale_clothes.nhom11.dto.ImageDTO;
-import com.sale_clothes.nhom11.dto.response.ApiResponse;
+
+
 import com.sale_clothes.nhom11.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,27 +19,11 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        String uploadImage = imageService.uploadImage(file);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
-    }
 
-
-    @GetMapping("/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
-        byte[] imageData=imageService.downloadImage(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
-
-    }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/fileSystem")
-    public ResponseEntity<?> uploadImageToFileSystem(@RequestParam("image") MultipartFile file) throws IOException {
-        String uploadImage = imageService.uploadImageToFileSystem(file);
+    public ResponseEntity<?> uploadImageToFileSystem(@RequestParam("image") MultipartFile file,@RequestParam("spMa") Integer spMa) throws IOException {
+        String uploadImage = imageService.uploadImageToFileSystem(file,spMa);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }

@@ -18,4 +18,8 @@ public class FileData {
     private String name;
     private String type;
     private String filePath;
+
+    @ManyToOne
+    @JoinColumn(name = "spMa")
+    private SanPham sanPham;
 }
