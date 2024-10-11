@@ -1,5 +1,6 @@
 package com.sale_clothes.nhom11.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,12 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Override
     public List<SanPhamDTO> getAllSanPhamDTOs() {
-        return null;
+        List<SanPham> sanPhams = sanPhamRepository.findAll();
+        ArrayList<SanPhamDTO> sanPhamDTOS = new ArrayList<SanPhamDTO>();
+        for(SanPham sanPham : sanPhams) {
+            sanPhamDTOS.add(SanPhamMapper.mapToSanPhamDTO(sanPham));
+        }
+        return sanPhamDTOS;
     }
 
     @Override

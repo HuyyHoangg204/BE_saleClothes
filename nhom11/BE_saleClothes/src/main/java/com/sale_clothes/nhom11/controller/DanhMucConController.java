@@ -29,10 +29,13 @@ public class DanhMucConController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/danhmuccons")
-    public ResponseEntity<List<DanhMucConDTO>> getAllDanhMucConDTOs() {
-        List<DanhMucConDTO> danhMucConDTOList = danhMucConServiceImpl.getAllDanhMucCon();
-        return ResponseEntity.ok(danhMucConDTOList);
+    public ApiResponse<List<DanhMucConDTO>> getAllDanhMucCon() {
+        List<DanhMucConDTO> danhMucConDTOS = danhMucConServiceImpl.getAllDanhMucCon();
+        return ApiResponse.<List<DanhMucConDTO>>builder()
+                .result(danhMucConDTOS)
+                .build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -1,5 +1,6 @@
 package com.sale_clothes.nhom11.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sale_clothes.nhom11.dto.response.ApiResponse;
@@ -31,9 +32,12 @@ public class SanPhamController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/sanphams")
-    public ResponseEntity<List<SanPhamDTO>> getAllSanPhams() {
-        List<SanPhamDTO> listSanPhams = sanPhamService.getAllSanPhamDTOs();
-        return new ResponseEntity<>(listSanPhams, HttpStatus.OK);
+    public ApiResponse<List<SanPhamDTO>> getAllSanPham() {
+        List<SanPhamDTO> sanPhamDTOS =  sanPhamService.getAllSanPhamDTOs();
+        return ApiResponse.<List<SanPhamDTO>>builder()
+                .result(sanPhamDTOS)
+                .build();
     }
 }

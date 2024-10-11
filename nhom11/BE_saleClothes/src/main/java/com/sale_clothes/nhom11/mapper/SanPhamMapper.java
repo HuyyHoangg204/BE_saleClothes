@@ -36,6 +36,7 @@ public class SanPhamMapper {
                 .spNgayCapNhat(sanPhamDTO.getSpNgayCapNhat())
                 .imageMain(sanPhamDTO.getImageMain())
                 .dmcMa(dmc)
+                .spSoLuong(sanPhamDTO.getSpSoLuong())
                 .build();
 }
 }
