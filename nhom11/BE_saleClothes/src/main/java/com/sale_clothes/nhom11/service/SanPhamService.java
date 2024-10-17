@@ -11,7 +11,7 @@ public interface SanPhamService {
 
     SanPhamDTO findSanPhamDTOById(String id);
 
-    SanPhamDTO updateSanPhamDTO(String id, SanPhamDTO sanPhamDTO);
+    void updateSanPhamDTO(Integer id, SanPhamDTO sanPhamDTO);
 
-    void deleteSanPhamDTO(SanPhamDTO sanPham);
+    void deleteSanPhamDTOById(int id);
 }

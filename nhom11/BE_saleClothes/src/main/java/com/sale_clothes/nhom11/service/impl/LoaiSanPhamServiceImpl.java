@@ -10,6 +10,7 @@ import com.sale_clothes.nhom11.entity.LoaiSanPham;
 import com.sale_clothes.nhom11.mapper.LoaiSanPhamMapper;
 import com.sale_clothes.nhom11.repository.LoaiSanPhamRepository;
 import com.sale_clothes.nhom11.service.LoaiSanPhamService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoaiSanPhamServiceImpl implements LoaiSanPhamService {
@@ -17,6 +18,7 @@ public class LoaiSanPhamServiceImpl implements LoaiSanPhamService {
     private LoaiSanPhamRepository loaiSanPhamRepository;
 
     @Override
+    @Transactional
     public LoaiSanPhamDTO createloaiSanPham(LoaiSanPhamDTO loaiSanPhamDTO) {
         LoaiSanPham loaiSanPham = LoaiSanPhamMapper.mapToLoaiSanPham(loaiSanPhamDTO);
         LoaiSanPham savedLoaiSanPham = loaiSanPhamRepository.save(loaiSanPham);

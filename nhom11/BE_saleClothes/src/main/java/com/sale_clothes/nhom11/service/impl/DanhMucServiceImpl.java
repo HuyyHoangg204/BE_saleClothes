@@ -14,6 +14,7 @@ import com.sale_clothes.nhom11.service.DanhMucService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class DanhMucServiceImpl implements DanhMucService {
     private DanhMucRepository danhMucRepository;
 
     @Override
+    @Transactional
     public DanhMucDTO createDanhMucDTO(DanhMucDTO danhMucDTO) {
         DanhMuc danhMuc = DanhMucMapper.mapToDanhMuc(danhMucDTO);
         DanhMuc savedDanhMuc = danhMucRepository.save(danhMuc);

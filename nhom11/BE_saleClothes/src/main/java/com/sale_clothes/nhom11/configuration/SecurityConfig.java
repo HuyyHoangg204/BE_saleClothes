@@ -29,19 +29,18 @@ public class SecurityConfig {
     private CustomJwtDecoder jwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
-        "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh"
+        "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh", "/images/**",
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         // Phân quyền truy cập
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT)
-                .permitAll()
-                //                        .requestMatchers(HttpMethod.GET, "/api/khachhangs").hasRole(Role.ADMIN.name())
+        httpSecurity.authorizeHttpRequests(request -> request
+                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
+                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
                 .anyRequest()
                 .authenticated());
-
         // OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
                         .decoder(jwtDecoder)

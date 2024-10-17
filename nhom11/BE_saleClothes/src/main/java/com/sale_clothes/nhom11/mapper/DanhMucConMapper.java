@@ -18,7 +18,7 @@ public class DanhMucConMapper {
                 danhMucCon.getDmMa() != null
                         ? danhMucCon.getDmMa().getDmMa()
                         : null // Lấy mã danh mục từ đối tượng DanhMuc
-                );
+        );
     }
 
     // Phương thức để chuyển đổi từ DanhMucConDTO sang DanhMucCon

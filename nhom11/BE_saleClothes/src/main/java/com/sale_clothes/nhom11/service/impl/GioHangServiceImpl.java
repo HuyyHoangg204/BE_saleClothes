@@ -10,6 +10,7 @@ import com.sale_clothes.nhom11.entity.GioHang;
 import com.sale_clothes.nhom11.mapper.GioHangMapper;
 import com.sale_clothes.nhom11.repository.GioHangRepository;
 import com.sale_clothes.nhom11.service.GioHangService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GioHangServiceImpl implements GioHangService {
@@ -17,6 +18,7 @@ public class GioHangServiceImpl implements GioHangService {
     private GioHangRepository gioHangRepository;
 
     @Override
+    @Transactional
     public GioHangDTO createGioHang(GioHangDTO gioHangDTO) {
         GioHang gioHang = GioHangMapper.mapToGioHang(gioHangDTO);
         GioHang savedGioHang = gioHangRepository.save(gioHang);

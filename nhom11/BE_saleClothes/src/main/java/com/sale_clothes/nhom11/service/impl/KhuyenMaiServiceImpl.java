@@ -10,6 +10,7 @@ import com.sale_clothes.nhom11.entity.KhuyenMai;
 import com.sale_clothes.nhom11.mapper.KhuyenMaiMapper;
 import com.sale_clothes.nhom11.repository.KhuyenMaiRepository;
 import com.sale_clothes.nhom11.service.KhuyenMaiService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KhuyenMaiServiceImpl implements KhuyenMaiService {
@@ -17,6 +18,7 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     private KhuyenMaiRepository khuyenMaiRepository;
 
     @Override
+    @Transactional
     public KhuyenMaiDTO createKhuyenMai(KhuyenMaiDTO khuyenMaiDTO) {
         KhuyenMai khuyenMai = KhuyenMaiMapper.mapToKhuyenMai(khuyenMaiDTO);
         KhuyenMai saveKhuyenMai = khuyenMaiRepository.save(khuyenMai);

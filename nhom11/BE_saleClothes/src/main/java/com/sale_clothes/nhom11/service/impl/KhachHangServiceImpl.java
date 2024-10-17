@@ -18,6 +18,7 @@ import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KhachHangServiceImpl implements KhachHangService {
@@ -28,6 +29,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public KhachHangDTO createKhachHang(KhachHangDTO khachHangDTO) {
         KhachHang khachHang = KhachHangMapper.mapToKhachHang(khachHangDTO);
         if (khachHangRepository.existsByKhUserName(khachHang.getKhUserName())) {

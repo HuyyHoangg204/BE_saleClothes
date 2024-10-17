@@ -40,4 +40,28 @@ public class SanPhamController {
                 .result(sanPhamDTOS)
                 .build();
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/sanpham/{spMa}")
+    public ApiResponse<?> updateSanPham(@PathVariable int spMa, @RequestBody SanPhamDTO sanPhamDTO) {
+        try {
+            sanPhamService.updateSanPhamDTO(spMa,sanPhamDTO);
+            return ApiResponse.builder()
+                    .message("Update san pham success")
+                    .result(sanPhamDTO)
+                    .build();
+        } catch (Exception ex) {
+            return ApiResponse.builder()
+                    .message("Update san pham failed. Error: " + ex)
+                    .build();
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete-sanpham/{spMa}")
+    public ApiResponse<String> deleteSanPham(@PathVariable int spMa) {
+        sanPhamService.deleteSanPhamDTOById(spMa);
+        return ApiResponse.<String>builder()
+                .result("delete success!!")
+                .build();
+    }
 }
