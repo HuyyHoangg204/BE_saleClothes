@@ -22,6 +22,6 @@ public class DanhMuc {
     @Column(name = "dm_ten")
     private String dmTen;
 
-    @Column(name  = "dm_type")
+    @Column(name = "dm_type")
     private String dmType;
 }

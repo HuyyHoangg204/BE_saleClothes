@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.KhuyenMaiDTO;
 import com.sale_clothes.nhom11.entity.KhuyenMai;
 import com.sale_clothes.nhom11.mapper.KhuyenMaiMapper;
 import com.sale_clothes.nhom11.repository.KhuyenMaiRepository;
 import com.sale_clothes.nhom11.service.KhuyenMaiService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KhuyenMaiServiceImpl implements KhuyenMaiService {

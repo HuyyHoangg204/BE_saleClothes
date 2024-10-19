@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.GioHangDTO;
 import com.sale_clothes.nhom11.entity.GioHang;
 import com.sale_clothes.nhom11.mapper.GioHangMapper;
 import com.sale_clothes.nhom11.repository.GioHangRepository;
 import com.sale_clothes.nhom11.service.GioHangService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GioHangServiceImpl implements GioHangService {

@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
+		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.employeeManager</groupId>
+	<groupId>com.harious</groupId>
 	<artifactId>devHHoang</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>devHHoang</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Ecommerce website</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -108,14 +108,23 @@
 						</importOrder>
 					</java>
 				</configuration>
-				<!--				<executions>-->
-				<!--					<execution>-->
-				<!--						<phase>compile</phase>-->
-				<!--						<goals>-->
-				<!--							<goal>check</goal>-->
-				<!--						</goals>-->
-				<!--					</execution>-->
-				<!--				</executions>-->
+								<executions>
+									<execution>
+										<phase>compile</phase>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</execution>
+								</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+				</configuration>
 			</plugin>
 		</plugins>
 

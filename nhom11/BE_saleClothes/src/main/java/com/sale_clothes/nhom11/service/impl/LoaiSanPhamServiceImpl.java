@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.LoaiSanPhamDTO;
 import com.sale_clothes.nhom11.entity.LoaiSanPham;
 import com.sale_clothes.nhom11.mapper.LoaiSanPhamMapper;
 import com.sale_clothes.nhom11.repository.LoaiSanPhamRepository;
 import com.sale_clothes.nhom11.service.LoaiSanPhamService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoaiSanPhamServiceImpl implements LoaiSanPhamService {

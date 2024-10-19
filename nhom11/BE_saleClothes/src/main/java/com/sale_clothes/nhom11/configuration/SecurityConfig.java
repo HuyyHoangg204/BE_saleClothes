@@ -36,9 +36,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         // Phân quyền truy cập
-        httpSecurity.authorizeHttpRequests(request -> request
-                .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT).permitAll()
-                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT)
+                .permitAll()
+                .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT)
+                .permitAll()
                 .anyRequest()
                 .authenticated());
         // OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token

@@ -22,8 +22,4 @@ public class GioHang {
     @OneToOne
     @JoinColumn(name = "kh_username")
     private KhachHang khUserName;
-
-
-
-
 }

@@ -102,7 +102,7 @@ public class AuthenticationService {
         //  Get token
         String token = introspectRequest.getToken();
         try {
-            verifyToken(token,false);
+            verifyToken(token, false);
         } catch (AppException ex) {
             return IntrospectResponse.builder().valid(false).build();
         }
@@ -123,10 +123,7 @@ public class AuthenticationService {
 
         String token = generateToken(khachHangDTO);
 
-        return AuthenticationResponse.builder()
-                .token(token)
-                .authenticated(true)
-                .build();
+        return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
 
     private String buildScope(KhachHangDTO khachHangDTO) {
@@ -150,8 +147,13 @@ public class AuthenticationService {
         SignedJWT signedJWT = SignedJWT.parse(token);
 
         // Lấy thời gian hết hạn từ claims của SignedJWT
-        Date expiryTime =(isRefresh)
-                ? new Date(signedJWT.getJWTClaimsSet().getIssueTime().toInstant().plus(REFRESH_DURATION,ChronoUnit.HOURS).toEpochMilli())
+        Date expiryTime = (isRefresh)
+                ? new Date(signedJWT
+                        .getJWTClaimsSet()
+                        .getIssueTime()
+                        .toInstant()
+                        .plus(REFRESH_DURATION, ChronoUnit.HOURS)
+                        .toEpochMilli())
                 : signedJWT.getJWTClaimsSet().getExpirationTime();
 
         // Kiếm tra tinhs hợp lệ của token
@@ -167,7 +169,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
-        var signJWT = verifyToken(request.getToken(),true);
+        var signJWT = verifyToken(request.getToken(), true);
 
         var jit = signJWT.getJWTClaimsSet().getJWTID();
         var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
@@ -186,18 +188,19 @@ public class AuthenticationService {
 
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         try {
-            var signToken = verifyToken(request.getToken(),true);
+            var signToken = verifyToken(request.getToken(), true);
 
             String jwtTokenId = signToken.getJWTClaimsSet().getJWTID();
             Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
 
-            InvalidatedToken invalidatedToken =
-                    InvalidatedToken.builder().id(jwtTokenId).expiryTime(expiryTime).build();
+            InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                    .id(jwtTokenId)
+                    .expiryTime(expiryTime)
+                    .build();
 
             invalidatedTokenRepository.save(invalidatedToken);
         } catch (AppException ex) {
             log.info("Token already expired");
         }
-
     }
 }

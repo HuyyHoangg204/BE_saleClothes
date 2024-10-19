@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.KhachHangDTO;
 import com.sale_clothes.nhom11.entity.KhachHang;
@@ -18,7 +19,6 @@ import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.mapper.KhachHangMapper;
 import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KhachHangServiceImpl implements KhachHangService {

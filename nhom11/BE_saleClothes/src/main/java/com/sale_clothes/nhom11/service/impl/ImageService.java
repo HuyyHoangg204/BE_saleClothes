@@ -1,30 +1,24 @@
 package com.sale_clothes.nhom11.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.Optional;
 
-import com.sale_clothes.nhom11.entity.FileData;
-
-import com.sale_clothes.nhom11.entity.SanPham;
-import com.sale_clothes.nhom11.exception.NotFoundException;
-import com.sale_clothes.nhom11.repository.FileDataRepository;
-
-import com.sale_clothes.nhom11.repository.SanPhamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.sale_clothes.nhom11.entity.FileData;
+import com.sale_clothes.nhom11.entity.SanPham;
+import com.sale_clothes.nhom11.exception.NotFoundException;
+import com.sale_clothes.nhom11.repository.FileDataRepository;
+import com.sale_clothes.nhom11.repository.SanPhamRepository;
 
 @Service
 public class ImageService {
-
 
     @Autowired
     private FileDataRepository fileDataRepository;
@@ -34,21 +28,17 @@ public class ImageService {
 
     private final String FOLDER_PATH = "D:\\WorkSpace\\Project\\saleClothes\\Image\\";
 
-
-
     @Transactional
     public String uploadImageToFileSystem(MultipartFile file, Integer spMa) throws IOException {
-        String filePath=FOLDER_PATH + file.getOriginalFilename();
+        String filePath = FOLDER_PATH + file.getOriginalFilename();
         FileData fileData = fileDataRepository.save(FileData.builder()
-                        .name(file.getOriginalFilename())
-                        .type(file.getContentType())
-                        .filePath(filePath)
-                        .sanPham(SanPham.builder()
-                                .spMa(spMa)
-                                .build())
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .filePath(filePath)
+                .sanPham(SanPham.builder().spMa(spMa).build())
                 .build());
         file.transferTo(new File(filePath));
-        if(filePath != null) {
+        if (filePath != null) {
             return "file uploaded successfully: " + filePath;
         }
         return null;
@@ -58,25 +48,26 @@ public class ImageService {
 
         StringBuilder resultMessage = new StringBuilder();
 
-        for(MultipartFile file : files) {
+        for (MultipartFile file : files) {
             // Tạo đường dẫn cho từng file
             String filePath = FOLDER_PATH + file.getOriginalFilename();
 
             // Lưu thông tin file vào database
             FileData fileData = fileDataRepository.save(FileData.builder()
-                            .name(file.getOriginalFilename())
-                            .type(file.getContentType())
-                            .filePath(filePath)
-                            .sanPham(SanPham.builder()
-                                    .spMa(spMa)
-                                    .build())
+                    .name(file.getOriginalFilename())
+                    .type(file.getContentType())
+                    .filePath(filePath)
+                    .sanPham(SanPham.builder().spMa(spMa).build())
                     .build());
 
             // Lưu file vào hệ thống tệp
             file.transferTo(new File(filePath));
 
             // Thêm thông báo thành công cho từng file
-            resultMessage.append("File uploaded successfully: ").append(filePath).append("\n");
+            resultMessage
+                    .append("File uploaded successfully: ")
+                    .append(filePath)
+                    .append("\n");
             // Trả về thông báo nếu có ít nhất một file được upload thành công
 
         }
@@ -87,17 +78,17 @@ public class ImageService {
         return "No files were uploaded.";
     }
 
-    public void deleteByNameAndSpMa(List<String> names, Integer spMa)  {
+    public void deleteByNameAndSpMa(List<String> names, Integer spMa) {
 
-        if(sanPhamRepository.existsById(spMa)) {
+        if (sanPhamRepository.existsById(spMa)) {
             for (String name : names) {
-                fileDataRepository.deleteByNameAndSpMa(name,spMa);
+                fileDataRepository.deleteByNameAndSpMa(name, spMa);
             }
         } else {
             throw new RuntimeException("spMa is not exist!!");
         }
-
     }
+
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
         Optional<FileData> fileData = fileDataRepository.findByName(fileName);
         String filePath = fileData.get().getFilePath();
@@ -111,7 +102,6 @@ public class ImageService {
             throw new NotFoundException("Image not exist!!");
         }
         return fileDataList;
-
     }
 
     public List<FileData> getAllImage() {

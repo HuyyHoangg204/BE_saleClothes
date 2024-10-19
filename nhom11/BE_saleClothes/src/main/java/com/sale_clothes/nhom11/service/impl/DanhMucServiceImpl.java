@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.DanhMucDTO;
 import com.sale_clothes.nhom11.entity.DanhMuc;
@@ -14,7 +15,6 @@ import com.sale_clothes.nhom11.service.DanhMucService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @NoArgsConstructor

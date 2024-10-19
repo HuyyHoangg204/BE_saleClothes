@@ -18,7 +18,6 @@ public class SanPhamMapper {
                 .spSoLuong(sanPham.getSpSoLuong())
                 .dmcMa(sanPham.getDmcMa().getDmcMa())
                 .build();
-
     }
 
     public static SanPham mapToSanPham(SanPhamDTO sanPhamDTO) {
@@ -38,5 +37,5 @@ public class SanPhamMapper {
                 .dmcMa(dmc)
                 .spSoLuong(sanPhamDTO.getSpSoLuong())
                 .build();
-}
+    }
 }
