@@ -10,7 +10,6 @@ import com.sale_clothes.nhom11.service.impl.LoaiSanPhamServiceImpl;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 public class LoaiSanPhamController {
     @Autowired
     private LoaiSanPhamServiceImpl loaiSanPhamServiceImpl;

@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin("/*")
 @RequestMapping("/api")
 public class SanPhamController {
     @Autowired

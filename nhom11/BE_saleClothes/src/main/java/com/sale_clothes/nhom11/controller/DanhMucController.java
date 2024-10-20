@@ -12,7 +12,6 @@ import com.sale_clothes.nhom11.service.impl.DanhMucServiceImpl;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 public class DanhMucController {
     @Autowired
     private DanhMucServiceImpl danhMucServiceImpl;

@@ -1,0 +1,32 @@
+
+
+services:
+  mysql:
+    image: mariadb:10.5.26
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sale_clothes
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sale_clothes.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  web:
+    image: sale-clothes:latest
+    container_name: ecommerce
+    ports:
+      - "8081:8081"
+    environment:
+      DBMS_CONNECTION: jdbc:mysql://mysql:3306/sale_clothes
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:

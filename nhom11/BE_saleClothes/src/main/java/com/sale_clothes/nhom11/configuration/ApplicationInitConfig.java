@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class ApplicationInitConfig implements WebMvcConfigurer {
+public class ApplicationInitConfig{
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -42,12 +42,5 @@ public class ApplicationInitConfig implements WebMvcConfigurer {
         };
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173") // Allow your frontend origin
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow HTTP methods
-                .allowedHeaders("*") // Allow all headers
-        ;
-    }
+
 }

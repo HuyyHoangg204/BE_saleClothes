@@ -10,7 +10,6 @@ import com.sale_clothes.nhom11.service.impl.GioHangServiceImpl;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 public class GioHangController {
     @Autowired
     private GioHangServiceImpl gioHangServiceImpl;

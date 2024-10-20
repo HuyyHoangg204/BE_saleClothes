@@ -10,7 +10,6 @@ import com.sale_clothes.nhom11.service.impl.KhuyenMaiServiceImpl;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
 public class KhuyenMaiController {
     @Autowired
     private KhuyenMaiServiceImpl khuyenMaiServiceImpl;
