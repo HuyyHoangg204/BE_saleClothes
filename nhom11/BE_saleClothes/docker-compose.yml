@@ -27,6 +27,8 @@ services:
       DB_PASSWORD: root
     depends_on:
       - mysql
+    volumes:
+      - /home/ubuntu/harious/Image:/app/images
 
 volumes:
   mysql-data:

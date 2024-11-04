@@ -26,7 +26,7 @@ public class ImageService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
-    private final String FOLDER_PATH = "D:\\WorkSpace\\Project\\saleClothes\\Image\\";
+    private final String FOLDER_PATH = "/app/images/";
 
     @Transactional
     public String uploadImageToFileSystem(MultipartFile file, Integer spMa) throws IOException {
