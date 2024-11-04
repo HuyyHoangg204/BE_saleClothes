@@ -106,7 +106,7 @@ public class ImageController {
             responseList.add(ImageDataResponse.builder()
                     .maSp(fileData.getSanPham().getSpMa())
                     .name(fileData.getName())
-                    .imageUrl("http://localhost:8081/images/" + fileData.getName())
+                    .imageUrl("http://51.79.167.161:8081/images/" + fileData.getName())
                     .type(fileData.getType())
                     .build());
         }
