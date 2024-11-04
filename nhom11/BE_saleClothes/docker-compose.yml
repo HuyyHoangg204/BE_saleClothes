@@ -1,4 +1,4 @@
-
+version: '3.8'
 
 services:
   mysql:
@@ -13,7 +13,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./sale_clothes.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sale_clothes.sql:/docker-entrypoint-initdb.d/sale_clothes.sql
     restart: always
 
   web:
