@@ -22,11 +22,15 @@ import com.sale_clothes.nhom11.dto.response.ApiResponse;
 import com.sale_clothes.nhom11.dto.response.ImageDataResponse;
 import com.sale_clothes.nhom11.entity.FileData;
 import com.sale_clothes.nhom11.service.impl.ImageService;
+import java.nio.file.Files;
+
+
 
 @RestController
 public class ImageController {
     @Autowired
     private ImageService imageService;
+    private final String FOLDER_PATH = "/app/images/";
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/fileSystem")
@@ -35,7 +39,6 @@ public class ImageController {
         String uploadImage = imageService.uploadImageToFileSystem(file, spMa);
         return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
     }
-
     @PostMapping("images/fileSystem")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> uploadImagesToFileSystem(
@@ -43,6 +46,7 @@ public class ImageController {
         String uploadImages = imageService.uploadImagesToFileSystem(files, spMa);
         return ResponseEntity.status(HttpStatus.OK).body(uploadImages);
     }
+
 
     @GetMapping("/image/fileSystem/{fileName}")
     public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
@@ -59,7 +63,7 @@ public class ImageController {
         for (FileData fileData : fileDataList) {
             imageDataResponses.add(ImageDataResponse.builder()
                     .name(fileData.getName())
-                    .imageUrl("http://localhost:8081/images/" + fileData.getName())
+                    .imageUrl("http://51.79.167.161:8081/images/" + fileData.getName())
                     .type(fileData.getType())
                     .maSp(fileData.getSanPham().getSpMa())
                     .build());
@@ -71,11 +75,14 @@ public class ImageController {
 
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws Exception {
-        Path imagePath = Paths.get("D:/WorkSpace/Project/saleClothes/Image/").resolve(imageName);
+        Path imagePath = Paths.get(FOLDER_PATH).resolve(imageName);
         Resource resource = new UrlResource(imagePath.toUri());
 
-        if (resource.exists() || resource.isReadable()) {
+        if (resource.exists() && resource.isReadable()) {
+            String contentType = Files.probeContentType(imagePath); // Tự động xác định loại nội dung
+
             return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } else {
