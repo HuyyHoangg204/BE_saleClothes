@@ -2,17 +2,16 @@ package com.sale_clothes.nhom11.dto;
 
 import java.util.Set;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class KhachHangDTO {
     @Size(min = 5, message = "Username không dưới 5 ký tụ")
     private String khUserName;
@@ -28,6 +27,7 @@ public class KhachHangDTO {
 
     private String khDienThoai;
 
+    @Email(message = "Email không hợp lệ!")
     private String khEmail;
 
     private int khNgaySinh;

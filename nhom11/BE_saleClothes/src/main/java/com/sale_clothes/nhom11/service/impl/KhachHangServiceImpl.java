@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.KhachHangService;
 
 @Service
+@Slf4j
 public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
@@ -31,6 +33,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     @Transactional
     public KhachHangDTO createKhachHang(KhachHangDTO khachHangDTO) {
+        log.info("Service : create user!!");
         KhachHang khachHang = KhachHangMapper.mapToKhachHang(khachHangDTO);
         if (khachHangRepository.existsByKhUserName(khachHang.getKhUserName())) {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTED);

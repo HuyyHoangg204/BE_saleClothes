@@ -28,6 +28,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/fileSystem")
     public ResponseEntity<?> uploadImageToFileSystem(
