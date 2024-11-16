@@ -35,7 +35,7 @@ public class ImageService {
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath)
-                .sanPham(SanPham.builder().spMa(spMa).build())
+                .sanPham(SanPham.builder().product_id(spMa).build())
                 .build());
         file.transferTo(new File(filePath));
         if (filePath != null) {
@@ -57,7 +57,7 @@ public class ImageService {
                     .name(file.getOriginalFilename())
                     .type(file.getContentType())
                     .filePath(filePath)
-                    .sanPham(SanPham.builder().spMa(spMa).build())
+                    .sanPham(SanPham.builder().product_id(spMa).build())
                     .build());
 
             // Lưu file vào hệ thống tệp

@@ -21,7 +21,7 @@ import lombok.Setter;
 public class KhuyenMai {
     @Id
     @Column(name = "km_ma")
-    private String kh_ma;
+    private String km_ma;
 
     @Column(name = "km_ten")
     private String km_ten;

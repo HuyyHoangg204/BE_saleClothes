@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v2")
 public class SanPhamController {
     @Autowired
     private SanPhamServiceImpl sanPhamService;

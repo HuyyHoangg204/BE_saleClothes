@@ -91,8 +91,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("code")
                         .value(1003))
                 .andExpect(MockMvcResultMatchers.jsonPath("message")
-                        .value("Username không dưới 5 ký tụ"))
-        ;
+                        .value("Username không dưới 5 ký tụ"));
     }
     @Test
     void createUser_invalidPassword_failed() throws Exception {

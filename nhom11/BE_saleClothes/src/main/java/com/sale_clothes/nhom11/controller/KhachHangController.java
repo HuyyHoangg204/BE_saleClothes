@@ -38,13 +38,11 @@ public class KhachHangController {
             String errorMessage = result.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.joining(", ")); // Kết hợp các thông báo lỗi nếu có nhiều lỗi
-
             // Trả về lỗi 400 với mã lỗi và thông báo chi tiết
             ApiResponse<KhachHangDTO> response = ApiResponse.<KhachHangDTO>builder()
                     .code(1003) // Mã lỗi
                     .message(errorMessage) // Thông báo lỗi từ result
                     .build();
-
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // Trả về mã 400
         }
 

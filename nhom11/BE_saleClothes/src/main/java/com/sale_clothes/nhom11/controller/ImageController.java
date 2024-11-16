@@ -62,7 +62,7 @@ public class ImageController {
                     .name(fileData.getName())
                     .imageUrl("http://localhost:8081/images/" + fileData.getName())
                     .type(fileData.getType())
-                    .maSp(fileData.getSanPham().getSpMa())
+                    .maSp(fileData.getSanPham().getProduct_id())
                     .build());
         }
         return ApiResponse.<List<ImageDataResponse>>builder()
@@ -105,7 +105,7 @@ public class ImageController {
         ArrayList<ImageDataResponse> responseList = new ArrayList<ImageDataResponse>();
         for (FileData fileData : fileDataList) {
             responseList.add(ImageDataResponse.builder()
-                    .maSp(fileData.getSanPham().getSpMa())
+                    .maSp(fileData.getSanPham().getProduct_id())
                     .name(fileData.getName())
                     .imageUrl("http://51.79.167.161:8081/images/" + fileData.getName())
                     .type(fileData.getType())

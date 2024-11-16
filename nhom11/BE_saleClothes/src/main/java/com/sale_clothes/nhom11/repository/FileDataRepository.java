@@ -14,12 +14,12 @@ import com.sale_clothes.nhom11.entity.FileData;
 public interface FileDataRepository extends JpaRepository<FileData, Integer> {
     Optional<FileData> findByName(String fileName);
 
-    @Query("select fileData from FileData fileData WHERE fileData.sanPham.spMa = :spMa")
+    @Query("select fileData from FileData fileData WHERE fileData.sanPham.product_id = :spMa")
     List<FileData> findAllBySpMa(@Param("spMa") Integer spMa);
 
     @Modifying
     @Transactional
-    @Query("delete from FileData fileData where fileData.name = :name and fileData.sanPham.spMa = :spMa")
+    @Query("delete from FileData fileData where fileData.name = :name and fileData.sanPham.product_id = :spMa")
     void deleteByNameAndSpMa(@Param("name") String name, @Param("spMa") Integer spma);
 
     void deleteById(Long id);

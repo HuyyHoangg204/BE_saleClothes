@@ -6,7 +6,7 @@ import com.sale_clothes.nhom11.entity.KhuyenMai;
 public class KhuyenMaiMapper {
     public static KhuyenMaiDTO mapToKhuyenMaiDTO(KhuyenMai khuyenMai) {
         return new KhuyenMaiDTO(
-                khuyenMai.getKh_ma(),
+                khuyenMai.getKm_ma(),
                 khuyenMai.getKm_ten(),
                 khuyenMai.getKm_noiDung(),
                 khuyenMai.getKm_tuNgay(),
