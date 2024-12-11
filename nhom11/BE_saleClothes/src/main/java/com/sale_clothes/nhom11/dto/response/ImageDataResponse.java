@@ -11,5 +11,5 @@ public class ImageDataResponse {
     private String name;
     private String type;
     private String imageUrl; // Chứa đường dẫn URL của hình ảnh
-    private Integer maSp;
+    private Integer variant_id;
 }

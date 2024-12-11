@@ -17,6 +17,7 @@ public class SanPham {
     @Id
     @Column(name = "sp_ma")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
     private Integer spMa;
 
     @Column(name = "sp_ten")
@@ -45,22 +46,32 @@ public class SanPham {
 
     @Column(name = "sp_Image")
     private String imageMain;
+=======
+    private Integer product_id;
+    private String name;
+    private double base_price;
+    private String description;
+    private String material;
+    private String instruction;
+    private int discount_percentage;
+    private String product_code;
+>>>>>>> 1cd856ad (build: ProductVariant, Color entity)
 
     @ManyToOne
     @JoinColumn(name = "dmc_ma")
     private DanhMucCon dmcMa;
 
-    @ManyToOne
-    @JoinColumn(name = "km_ma")
-    private KhuyenMai khMa;
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "km_ma")
+//    private KhuyenMai khMa;
 
-    @ManyToOne
-    @JoinColumn(name = "lsp_ma")
-    private LoaiSanPham lspMa;
-
-    @ManyToOne
-    @JoinColumn(name = "ch_ma")
-    private CuaHang chMa;
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "lsp_ma")
+//    private LoaiSanPham lspMa;
+//
+//    @ManyToOne(optional = true)
+//    @JoinColumn(name = "ch_ma")
+//    private CuaHang chMa;
 
     public SanPham(
             String spMa,

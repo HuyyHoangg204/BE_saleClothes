@@ -28,13 +28,22 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Autowired
     private DanhMucConRepository danhMucConRepository;
+    @Autowired
+    private SanPhamMapper sanPhamMapper;
 
     @Override
     @Transactional
     public SanPhamDTO createSanPhamDTO(SanPhamDTO sanPhamDTO) {
+<<<<<<< HEAD
         SanPham sanPham = SanPhamMapper.mapToSanPham(sanPhamDTO);
         SanPham savedSanPham = sanPhamRepository.save(sanPham);
         return SanPhamMapper.mapToSanPhamDTO(savedSanPham);
+=======
+
+        SanPham sanPham = sanPhamMapper.mapToSanPham(sanPhamDTO);
+        SanPham savedSanPham = sanPhamRepository.save(sanPham);
+        return sanPhamMapper.mapToSanPhamDTO(savedSanPham);
+>>>>>>> 1cd856ad (build: ProductVariant, Color entity)
     }
 
     @Override
@@ -42,7 +51,11 @@ public class SanPhamServiceImpl implements SanPhamService {
         List<SanPham> sanPhams = sanPhamRepository.findAll();
         ArrayList<SanPhamDTO> sanPhamDTOS = new ArrayList<SanPhamDTO>();
         for (SanPham sanPham : sanPhams) {
+<<<<<<< HEAD
             sanPhamDTOS.add(SanPhamMapper.mapToSanPhamDTO(sanPham));
+=======
+            sanPhamDTOS.add(sanPhamMapper.mapToSanPhamDTO(sanPham));
+>>>>>>> 1cd856ad (build: ProductVariant, Color entity)
         }
         return sanPhamDTOS;
     }

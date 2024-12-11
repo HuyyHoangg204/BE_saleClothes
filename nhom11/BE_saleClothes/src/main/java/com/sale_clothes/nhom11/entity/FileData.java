@@ -15,12 +15,11 @@ public class FileData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String type;
     private String filePath;
 
     @ManyToOne
-    @JoinColumn(name = "spMa")
-    private SanPham sanPham;
+    @JoinColumn(name = "variant_id")
+    private ProductVariant productVariant;
 }
