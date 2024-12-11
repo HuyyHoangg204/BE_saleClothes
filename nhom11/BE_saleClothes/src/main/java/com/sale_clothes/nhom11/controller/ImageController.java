@@ -1,6 +1,7 @@
 package com.sale_clothes.nhom11.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    //Upload a image
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/fileSystem")
     public ResponseEntity<?> uploadImageToFileSystem(
@@ -36,6 +38,7 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
     }
 
+    //Upload multiple images
     @PostMapping("images/fileSystem")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> uploadImagesToFileSystem(
@@ -51,38 +54,49 @@ public class ImageController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
     }
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/image/fileSystems/{spMa}")
-//    public ApiResponse<List<ImageDataResponse>> getAllImagesBySpMa(@PathVariable Integer spMa) {
-//        List<FileData> fileDataList = imageService.getAllImagesBySpMa(spMa);
-//        ArrayList<ImageDataResponse> imageDataResponses = new ArrayList<>();
-//        for (FileData fileData : fileDataList) {
-//            imageDataResponses.add(ImageDataResponse.builder()
-//                    .name(fileData.getName())
-//                    .imageUrl("http://localhost:8081/images/" + fileData.getName())
-//                    .type(fileData.getType())
-//                    .maSp(fileData.getSanPham().getProduct_id())
-//                    .build());
-//        }
-//        return ApiResponse.<List<ImageDataResponse>>builder()
-//                .result(imageDataResponses)
-//                .build();
-//    }
-//
 
+    //Get all images by variant_id
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/image/fileSystems/{variant_id}")
+    public ApiResponse<List<ImageDataResponse>> getAllImagesBySpMa(@PathVariable Integer variant_id) {
+        List<FileData> fileDataList = imageService.getAllImagesByVariantId(variant_id);
+        ArrayList<ImageDataResponse> imageDataResponses = new ArrayList<>();
+        for (FileData fileData : fileDataList) {
+            imageDataResponses.add(ImageDataResponse.builder()
+                    .name(fileData.getName())
+                    .imageUrl("http://localhost:8081/images/" + fileData.getName())
+                    .type(fileData.getType())
+                            .variant_id(fileData.getProductVariant().getVariant_id())
+                    .build());
+        }
+        return ApiResponse.<List<ImageDataResponse>>builder()
+                .result(imageDataResponses)
+                .build();
+    }
+
+
+    //Get image by imageName
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws Exception {
-        Path imagePath = Paths.get("D:/WorkSpace/Project/saleClothes/Image/").resolve(imageName);
+        Path imagePath = Paths.get("F:/WorkSpace/Project/saleClothes/Image/").resolve(imageName);
         Resource resource = new UrlResource(imagePath.toUri());
 
         if (resource.exists() || resource.isReadable()) {
+            // Lấy MIME type của file
+            String contentType = Files.probeContentType(imagePath);
+            if (contentType == null) {
+                contentType = "application/octet-stream"; // MIME mặc định nếu không xác định được
+            }
+
             return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType)) // Đặt Content-Type
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } else {
             throw new RuntimeException("Could not read the image file: " + imageName);
         }
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/image/fileSystems/{spMa}")

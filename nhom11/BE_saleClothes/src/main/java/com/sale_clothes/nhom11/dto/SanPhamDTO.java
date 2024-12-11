@@ -12,35 +12,7 @@ import lombok.*;
 @Setter
 @Builder
 public class SanPhamDTO {
-<<<<<<< HEAD
-    private Integer spMa;
 
-    private String spTen;
-
-    private double spGia;
-
-    private double spGiaCu;
-
-    private String spMoTaNgan;
-
-    private String spMoTaChiTiet;
-
-    private LocalDate spNgayCapNhat;
-
-    private int spSoLuong;
-
-    private String imageMain;
-
-    private String spColor;
-
-    private Integer dmcMa;
-
-    private KhuyenMai khMa;
-
-    private LoaiSanPham lspMa;
-
-    private CuaHang chMa;
-=======
     private Integer product_id;
     private String name;
     private double base_price;
@@ -53,6 +25,6 @@ public class SanPhamDTO {
     private String product_code;
     private String material;
     private String instruction;
->>>>>>> 1cd856ad (build: ProductVariant, Color entity)
+
 }
 // }

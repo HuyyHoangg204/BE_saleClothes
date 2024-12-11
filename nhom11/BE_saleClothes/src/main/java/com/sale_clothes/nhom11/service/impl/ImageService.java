@@ -27,11 +27,9 @@ public class ImageService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
-<<<<<<< HEAD
-    private final String FOLDER_PATH = "D:\\WorkSpace\\Project\\saleClothes\\Image\\";
-=======
+
     private final String FOLDER_PATH = "F:\\WorkSpace\\Project\\saleClothes\\Image\\";
->>>>>>> 1cd856ad (build: ProductVariant, Color entity)
+
 
     //Upload 1 image
     @Transactional
@@ -41,11 +39,9 @@ public class ImageService {
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath)
-<<<<<<< HEAD
-                .sanPham(SanPham.builder().spMa(spMa).build())
-=======
+
                 .productVariant(ProductVariant.builder().build())
->>>>>>> 1cd856ad (build: ProductVariant, Color entity)
+
                 .build());
         file.transferTo(new File(filePath));
         if (filePath != null) {
@@ -69,11 +65,7 @@ public class ImageService {
                     .name(file.getOriginalFilename())
                     .type(file.getContentType())
                     .filePath(filePath)
-<<<<<<< HEAD
-                    .sanPham(SanPham.builder().spMa(spMa).build())
-=======
                     .productVariant(ProductVariant.builder().variant_id(variant_id).build())
->>>>>>> 1cd856ad (build: ProductVariant, Color entity)
                     .build());
 
             // Lưu file vào hệ thống tệp
@@ -112,8 +104,8 @@ public class ImageService {
         return images;
     }
 
-    public List<FileData> getAllImagesBySpMa(Integer spMa) {
-        List<FileData> fileDataList = fileDataRepository.findAllBySpMa(spMa);
+    public List<FileData> getAllImagesByVariantId(Integer variant_id) {
+        List<FileData> fileDataList = fileDataRepository.findAllByVariantId(variant_id);
         if (fileDataList.isEmpty()) {
             throw new NotFoundException("Image not exist!!");
         }

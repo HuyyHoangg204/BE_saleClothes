@@ -14,11 +14,9 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-<<<<<<< HEAD
-@RequestMapping("/api")
-=======
+
 @RequestMapping("/api/v1")
->>>>>>> 1cd856ad (build: ProductVariant, Color entity)
+
 public class SanPhamController {
     @Autowired
     private SanPhamServiceImpl sanPhamService;
