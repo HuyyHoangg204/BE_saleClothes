@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "product_variant")
@@ -31,5 +33,9 @@ public class ProductVariant {
     @Column(name = "size")
     private Set<String> size;
     private int stockQuantity;
+
+    @OneToMany(mappedBy = "productVariant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FileData> fileDataList = new ArrayList<>();
+
 
 }

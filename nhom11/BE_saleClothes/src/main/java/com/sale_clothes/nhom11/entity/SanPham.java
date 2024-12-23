@@ -1,6 +1,8 @@
 package com.sale_clothes.nhom11.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -31,6 +33,9 @@ public class SanPham {
     @ManyToOne
     @JoinColumn(name = "dmc_ma")
     private DanhMucCon dmcMa;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductVariant> productVariants = new ArrayList<>();
 
 //    @ManyToOne(optional = true)
 //    @JoinColumn(name = "km_ma")

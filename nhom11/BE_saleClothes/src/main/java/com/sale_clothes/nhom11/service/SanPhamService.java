@@ -1,6 +1,8 @@
 package com.sale_clothes.nhom11.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import com.sale_clothes.nhom11.dto.SanPhamDTO;
 
@@ -9,9 +11,11 @@ public interface SanPhamService {
 
     List<SanPhamDTO> getAllSanPhamDTOs();
 
-    SanPhamDTO findSanPhamDTOById(String id);
+    SanPhamDTO findSanPhamDTOById(Integer id);
 
     void updateSanPhamDTO(Integer id, SanPhamDTO sanPhamDTO);
 
     void deleteSanPhamDTOById(int id);
+    List<Map<String, Object>> getSanPhamToShowManager();
+
 }

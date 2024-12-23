@@ -9,6 +9,7 @@ import com.sale_clothes.nhom11.service.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +23,20 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public ColorDTO create(ColorDTO dto) {
+        Logger.DebugLogic(dto.toString());
+        if (dto.getColorName().isEmpty()) {
+            throw new RuntimeException("Vui lòng nhập tên màu!!");
+        }
+        if (dto.getColorCode().isEmpty()) {
+            throw new RuntimeException("Vui lòng nhập mã màu!!!");
+        }
+        if (!isHexColor(dto.getColorCode())) {
+            throw new RuntimeException("Mã màu không hợp lệ! Vui lòng nhập mã màu HEX hợp lệ.");
+        }
+
+        if(colorRepository.existsByColorCode(dto.getColorCode())) {
+            throw new RuntimeException("Mã màu đã tồn tai trong hệ thống!!");
+        }
 
         Color color = colorMapper.mapToColor(dto);
 
@@ -36,7 +51,12 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public List<ColorDTO> getAll() {
-        return null;
+        List<Color> colorList = colorRepository.findAll();
+        List<ColorDTO> colorDTOList = new ArrayList<>();
+        for(Color color : colorList) {
+            colorDTOList.add(colorMapper.mapToColorDTO(color));
+        }
+        return colorDTOList;
     }
 
     @Override
@@ -53,4 +73,10 @@ public class ColorServiceImpl implements ColorService {
     public void delete(int id) {
 
     }
+    public boolean isHexColor(String colorCode) {
+        // Kiểm tra nếu mã màu có dạng # và theo sau là 6 ký tự hợp lệ (0-9, A-F, a-f)
+        String regex = "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$";
+        return colorCode.matches(regex);
+    }
+
 }

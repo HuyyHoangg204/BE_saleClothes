@@ -63,6 +63,7 @@ public class ImageController {
         ArrayList<ImageDataResponse> imageDataResponses = new ArrayList<>();
         for (FileData fileData : fileDataList) {
             imageDataResponses.add(ImageDataResponse.builder()
+                            .id(fileData.getId())
                     .name(fileData.getName())
                     .imageUrl("http://localhost:8081/images/" + fileData.getName())
                     .type(fileData.getType())

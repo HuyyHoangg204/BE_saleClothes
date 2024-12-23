@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ImageDataResponse {
+    private Long id;
     private String name;
     private String type;
     private String imageUrl; // Chứa đường dẫn URL của hình ảnh

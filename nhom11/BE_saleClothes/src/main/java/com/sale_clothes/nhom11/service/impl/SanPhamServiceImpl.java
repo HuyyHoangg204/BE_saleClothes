@@ -1,9 +1,9 @@
 package com.sale_clothes.nhom11.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import com.sale_clothes.nhom11.entity.ProductVariant;
+import com.sale_clothes.nhom11.repository.ProductVariantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +25,9 @@ import lombok.NoArgsConstructor;
 public class SanPhamServiceImpl implements SanPhamService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    private ProductVariantRepository productVariantRepository;
 
     @Autowired
     private DanhMucConRepository danhMucConRepository;
@@ -53,37 +56,73 @@ public class SanPhamServiceImpl implements SanPhamService {
         return sanPhamDTOS;
     }
 
+
+
     @Override
-    public SanPhamDTO findSanPhamDTOById(String id) {
-        return null;
+    public SanPhamDTO findSanPhamDTOById(Integer id) {
+        Optional<SanPham> optionalSanPham = sanPhamRepository.findById(id);
+
+        if (optionalSanPham.isPresent()) {
+            return sanPhamMapper.mapToSanPhamDTO(optionalSanPham.get());
+        } else {
+            throw new NoSuchElementException("Product not found with id: " + id);
+        }
     }
+
 
     @Override
     public void updateSanPhamDTO(Integer id, SanPhamDTO sanPhamDTO) {
-//        SanPham sanPham2 = SanPhamMapper.mapToSanPham(sanPhamDTO);
-//        Optional<SanPham> sanPham = sanPhamRepository.findById(id);
-//        if (sanPham.isPresent()) {
-//            SanPham sanPham1 = sanPham.get();
-//            sanPham1.setSpColor(sanPham2.getSpColor());
-//            sanPham1.setSpGia(sanPham2.getSpGia());
-//            sanPham1.setSpMoTaChiTiet(sanPham2.getSpMoTaChiTiet());
-//            sanPham1.setSpMoTaNgan(sanPham2.getSpMoTaNgan());
-//            sanPham1.setSpTen(sanPham2.getSpTen());
-//            sanPham1.setSpGiaCu(sanPham2.getSpGiaCu());
-//            sanPham1.setSpSoLuong(sanPham2.getSpSoLuong());
-//            sanPham1.setDmcMa(sanPham2.getDmcMa());
-//            if (sanPham.get().getDmcMa() != null) {
-//                Optional<DanhMucCon> danhMucCon =
-//                        danhMucConRepository.findById(sanPham.get().getDmcMa().getDmcMa());
-//                sanPham1.setDmcMa(danhMucCon.get());
-//            }
-//            sanPhamRepository.save(sanPham1);
-//        }
+        SanPham sanPham2 = sanPhamMapper.mapToSanPham(sanPhamDTO);
+        Optional<SanPham> sanPham = sanPhamRepository.findById(id);
+
+        if (sanPham.isPresent()) {
+            SanPham sanPham1 = sanPham.get();
+            sanPham1.setName(sanPham2.getName());
+            sanPham1.setInstruction(sanPham2.getInstruction());
+            sanPham1.setMaterial(sanPham2.getMaterial());
+            sanPham1.setDescription(sanPham2.getDescription());
+            sanPham1.setBase_price(sanPham2.getBase_price());
+            sanPham1.setDiscount_percentage(sanPham2.getDiscount_percentage());
+            sanPham1.setDmcMa(sanPham2.getDmcMa());
+
+            // Kiểm tra xem dmcMa có tồn tại trong DB không
+            if (sanPham2.getDmcMa() != null) {
+                Optional<DanhMucCon> danhMucCon = danhMucConRepository.findById(sanPham2.getDmcMa().getDmcMa());
+                if (danhMucCon.isPresent()) {
+                    sanPham1.setDmcMa(danhMucCon.get());
+                } else {
+                    // Nếu không tìm thấy danh mục con, có thể ném lỗi hoặc xử lý theo yêu cầu
+                    throw new RuntimeException("Danh mục con không tồn tại trong cơ sở dữ liệu");
+                }
+            }
+
+            sanPhamRepository.save(sanPham1);
+        } else {
+            // Nếu sản phẩm không tồn tại trong DB, xử lý lỗi hoặc trả về thông báo thích hợp
+            throw new RuntimeException("Sản phẩm không tồn tại trong cơ sở dữ liệu");
+        }
     }
+
 
     @Override
     @Transactional
     public void deleteSanPhamDTOById(int id) {
         sanPhamRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSanPhamToShowManager() {
+        List<Map<String, Object>> listProduct = new ArrayList<>();
+        List<SanPham> listSanPham = sanPhamRepository.findAll();
+        for(SanPham sanPham : listSanPham) {
+            Map<String, Object> responese = new HashMap<>();
+            responese.put("product_id",sanPham.getProduct_id());
+            responese.put("name", sanPham.getName());
+            responese.put("base_price",sanPham.getBase_price());
+            responese.put("dmcMaId", sanPham.getDmcMa().getDmcMa());
+            responese.put("discount_percentage", sanPham.getDiscount_percentage());
+            listProduct.add(responese);
+        }
+        return listProduct;
     }
 }

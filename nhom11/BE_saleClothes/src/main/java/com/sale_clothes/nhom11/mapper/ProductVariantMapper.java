@@ -8,10 +8,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProductVariantMapper {
     @Mapping(source = "product.product_id", target = "product_id")
-    @Mapping(source = "color.color_id", target = "color_id")
+    @Mapping(source = "color.colorID", target = "color_id")
     ProductVariantDTO mapToProductVariantDTO(ProductVariant productVariant);
 
     @Mapping(source = "product_id", target = "product.product_id")
-    @Mapping(source = "color_id", target = "color.color_id")
+    @Mapping(source = "color_id", target = "color.colorID")
     ProductVariant mapToProductVariant(ProductVariantDTO productVariantDTO);
 }

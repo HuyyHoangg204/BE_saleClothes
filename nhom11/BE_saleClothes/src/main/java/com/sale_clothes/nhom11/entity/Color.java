@@ -15,7 +15,7 @@ import lombok.*;
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int color_id;
-    private String color_name;
-    private String color_code;
+    private int colorID;
+    private String colorName;
+    private String colorCode;
 }

@@ -1,6 +1,7 @@
 package com.sale_clothes.nhom11.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,5 +57,19 @@ public class SanPhamController {
     public ApiResponse<String> deleteSanPham(@PathVariable int spMa) {
         sanPhamService.deleteSanPhamDTOById(spMa);
         return ApiResponse.<String>builder().result("delete success!!").build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/showSanPham")
+    public ApiResponse<List<Map<String, Object>>> getAllSanPhamToShow() {
+        List<Map<String, Object>> listProduct = sanPhamService.getSanPhamToShowManager();
+        return ApiResponse.<List<Map<String, Object>>>builder().result(listProduct).build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/sanpham/{id}")
+    public ApiResponse<SanPhamDTO> getProductById(@PathVariable Integer id) {
+        SanPhamDTO sanPhamDTO = sanPhamService.findSanPhamDTOById(id);
+        return ApiResponse.<SanPhamDTO>builder().result(sanPhamDTO).build();
     }
 }
