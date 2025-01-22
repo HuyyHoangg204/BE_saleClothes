@@ -33,7 +33,7 @@ public class SecurityConfig {
     private CustomJwtDecoder jwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
-        "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh", "/images/**",
+        "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh", "/images/**", "/api/v1/redis"
     };
 
     @Bean

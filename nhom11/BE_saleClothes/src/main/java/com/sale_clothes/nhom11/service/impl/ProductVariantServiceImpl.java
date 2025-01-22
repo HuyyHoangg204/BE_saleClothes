@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class ProductVariantServiceImpl implements ProductVariantService {
@@ -44,6 +45,10 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
     @Override
     public ProductVariantDTO update(int id, ProductVariantDTO dto) {
+        Optional<ProductVariant> productVariant = productVariantRepository.findById(id);
+        if(!productVariant.isPresent()) {
+            throw new RuntimeException("Product variant not found");
+        }
         return null;
     }
 
@@ -67,6 +72,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         List<ProductVariant> productVariantList = productVariantRepository.getAllByProductID(id);
         List<ProductVariantDTO> productVariantDTOList = new ArrayList<ProductVariantDTO>();
         for(ProductVariant productVariant : productVariantList) {
+            System.out.println(productVariant);
             productVariantDTOList.add(productVariantMapper.mapToProductVariantDTO(productVariant));
         }
         return productVariantDTOList;

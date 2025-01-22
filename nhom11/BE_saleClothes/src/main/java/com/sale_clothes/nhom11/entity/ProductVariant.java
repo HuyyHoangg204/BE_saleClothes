@@ -25,7 +25,7 @@ public class ProductVariant {
     private SanPham product;
 
     @ManyToOne
-    @JoinColumn(name = "color_id")
+    @JoinColumn(name = "color_id",referencedColumnName = "colorID")
     private Color color;
 
     @ElementCollection
@@ -36,6 +36,7 @@ public class ProductVariant {
 
     @OneToMany(mappedBy = "productVariant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FileData> fileDataList = new ArrayList<>();
+
 
 
 }

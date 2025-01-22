@@ -9,6 +9,8 @@ import org.mapstruct.Mapping;
 public interface ProductVariantMapper {
     @Mapping(source = "product.product_id", target = "product_id")
     @Mapping(source = "color.colorID", target = "color_id")
+    @Mapping(source = "color.colorName", target = "colorName") // Ánh xạ colorName
+    @Mapping(source = "color.colorCode", target = "colorCode") // Ánh xạ colorCode
     ProductVariantDTO mapToProductVariantDTO(ProductVariant productVariant);
 
     @Mapping(source = "product_id", target = "product.product_id")

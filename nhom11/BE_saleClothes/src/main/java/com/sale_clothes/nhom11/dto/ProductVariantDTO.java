@@ -19,4 +19,6 @@ public class ProductVariantDTO {
     private int color_id;
     private Set<String> size;
     private int stockQuantity;
+    private String colorName;
+    private String colorCode;
 }
