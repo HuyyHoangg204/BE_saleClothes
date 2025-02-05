@@ -3,6 +3,7 @@ package com.sale_clothes.nhom11.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -71,5 +72,13 @@ public class SanPhamController {
     public ApiResponse<SanPhamDTO> getProductById(@PathVariable Integer id) {
         SanPhamDTO sanPhamDTO = sanPhamService.findSanPhamDTOById(id);
         return ApiResponse.<SanPhamDTO>builder().result(sanPhamDTO).build();
+    }
+
+    @GetMapping("/newProduct")
+    public ApiResponse<List<ProductResponseDTO>> getNewProduct() {
+        List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductDetails();
+        return ApiResponse.<List<ProductResponseDTO>>builder()
+                .result(productResponseDTOList)
+                .build();
     }
 }

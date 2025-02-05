@@ -23,7 +23,6 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public ColorDTO create(ColorDTO dto) {
-        Logger.DebugLogic(dto.toString());
         if (dto.getColorName().isEmpty()) {
             throw new RuntimeException("Vui lòng nhập tên màu!!");
         }
@@ -65,8 +64,8 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
-    public ColorDTO update(int id, ColorDTO dto) {
-        return null;
+    public void update(int id, ColorDTO dto) {
+
     }
 
     @Override

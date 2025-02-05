@@ -1,10 +1,18 @@
 package com.sale_clothes.nhom11.service.impl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import com.sale_clothes.nhom11.dto.VariantDTO;
+import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
+import com.sale_clothes.nhom11.entity.FileData;
 import com.sale_clothes.nhom11.entity.ProductVariant;
+import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.repository.ProductVariantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,5 +132,53 @@ public class SanPhamServiceImpl implements SanPhamService {
             listProduct.add(responese);
         }
         return listProduct;
+    }
+
+    //Get 12 product to show in homepage
+    public List<ProductResponseDTO> getProductDetails() {
+        List<ProductResponseDTO> productResponseDTOList = new ArrayList<>();
+
+        Pageable pageable = PageRequest.of(0, 12);
+        Page<SanPham> page = sanPhamRepository.findAll(pageable);
+
+        List<SanPham> products = sanPhamRepository.findProductsWithVariants(page.getContent());
+
+
+        List<ProductVariant> variants = productVariantRepository.findVariantsWithFileData(
+                products.stream().flatMap(p -> p.getProductVariants().stream()).collect(Collectors.toList())
+        );
+
+        for(SanPham sanPham : page.getContent()) {
+            ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+
+            double oldPrice = sanPham.getBase_price() / (1 - ((double) sanPham.getDiscount_percentage() / 100));
+
+            List<VariantDTO> variantDTOS = sanPham.getProductVariants().stream().map(variant -> {
+                List<String> imageUrls = new ArrayList<>();
+                VariantDTO variantDTO = new VariantDTO();
+
+                for(FileData fileData : variant.getFileDataList()) {
+                    imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                }
+
+
+                variantDTO.setVariant_id(variant.getVariant_id());
+                variantDTO.setSize(variant.getSize());
+                variantDTO.setColor_id(variant.getColor().getColorID());
+                variantDTO.setColorCode(variant.getColor().getColorCode());
+                variantDTO.setImageUrl(imageUrls);
+                return variantDTO;
+
+            }).collect(Collectors.toList());
+
+            productResponseDTO.setProductId(sanPham.getProduct_id());
+            productResponseDTO.setBasePrice(sanPham.getBase_price());
+            productResponseDTO.setName(sanPham.getName());
+            productResponseDTO.setOldPrice(oldPrice);
+            productResponseDTO.setVariants(variantDTOS);
+
+            productResponseDTOList.add(productResponseDTO);
+        }
+        return productResponseDTOList;
     }
 }

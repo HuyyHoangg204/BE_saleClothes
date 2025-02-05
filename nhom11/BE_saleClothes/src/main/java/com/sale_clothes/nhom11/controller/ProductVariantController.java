@@ -48,5 +48,20 @@ public class ProductVariantController {
                 .build();
     }
 
+    @PutMapping("/update_productVariant/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse<String> updateProductVariant(@PathVariable int id,@RequestBody ProductVariantDTO productVariantDTO) {
+
+        String message;
+        try {
+            productVariantService.update(id,productVariantDTO);
+            message = "Update product variant successfully!";
+        } catch (Exception e) {
+            message = "Error updating product variant: " + e.getMessage();
+        }
+        return ApiResponse.<String>builder()
+                .message(message)
+                .build();
+    }
 
 }

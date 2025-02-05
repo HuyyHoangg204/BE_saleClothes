@@ -44,12 +44,20 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public ProductVariantDTO update(int id, ProductVariantDTO dto) {
+    public void update(int id, ProductVariantDTO dto) {
         Optional<ProductVariant> productVariant = productVariantRepository.findById(id);
+        ProductVariant productVariant1 = productVariantMapper.mapToProductVariant(dto);
         if(!productVariant.isPresent()) {
             throw new RuntimeException("Product variant not found");
+        } else {
+            ProductVariant productVariant2 = productVariant.get();
+            productVariant2.setSize(productVariant1.getSize());
+            productVariant2.setStockQuantity(productVariant1.getStockQuantity());
+            productVariant2.setColor(productVariant1.getColor());
+            productVariantRepository.save(productVariant2);
         }
-        return null;
+
+
     }
 
     @Override

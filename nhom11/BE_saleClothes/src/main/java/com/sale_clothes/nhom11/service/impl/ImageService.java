@@ -86,6 +86,8 @@ public class ImageService {
         return "No files were uploaded.";
     }
 
+
+
     public void deleteByNameAndSpMa(List<String> names, Integer spMa) {
 
         if (sanPhamRepository.existsById(spMa)) {
