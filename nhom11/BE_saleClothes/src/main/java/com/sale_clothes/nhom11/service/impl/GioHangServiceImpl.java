@@ -3,6 +3,8 @@ package com.sale_clothes.nhom11.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +15,13 @@ import com.sale_clothes.nhom11.repository.GioHangRepository;
 import com.sale_clothes.nhom11.service.GioHangService;
 
 @Service
-public class GioHangServiceImpl implements GioHangService {
+public class GioHangServiceImpl extends BaseRedisServiceImpl<String,String, Integer> implements GioHangService  {
     @Autowired
     private GioHangRepository gioHangRepository;
+
+    public GioHangServiceImpl(RedisTemplate<String, Integer> redisTemplate, HashOperations<String, String, Integer> hashOperations) {
+        super(redisTemplate, hashOperations);
+    }
 
     @Override
     @Transactional

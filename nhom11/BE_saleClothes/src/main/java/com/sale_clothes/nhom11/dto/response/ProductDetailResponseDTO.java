@@ -10,10 +10,16 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponseDTO {
-    private int productId;
+public class ProductDetailResponseDTO {
+    private Integer product_id;
     private String name;
-    private Double basePrice;
+    private double base_price;
     private Double oldPrice;
+    private String description;
+    private String gender;
+    private int discount_percentage;
+    private String product_code;
+    private String material;
+    private String instruction;
     private List<VariantDTO> variants;
 }

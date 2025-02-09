@@ -34,4 +34,12 @@ public class ColorController {
                 .result(colorDTOList)
                 .build();
     }
+
+    @GetMapping("/color/{id}")
+    public ApiResponse<ColorDTO> getColorById(@PathVariable int id) {
+        ColorDTO colorDTO = colorService.getById(id);
+        return ApiResponse.<ColorDTO>builder()
+                .result(colorDTO)
+                .build();
+    }
 }

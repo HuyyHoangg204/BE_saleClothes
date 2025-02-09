@@ -2,6 +2,7 @@ package com.sale_clothes.nhom11.service.impl;
 
 import com.sale_clothes.nhom11.dto.ColorDTO;
 import com.sale_clothes.nhom11.entity.Color;
+import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.logger.ultil.Logger;
 import com.sale_clothes.nhom11.mapper.ColorMapper;
 import com.sale_clothes.nhom11.repository.ColorRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ColorServiceImpl implements ColorService {
@@ -60,7 +62,11 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public ColorDTO getById(int id) {
-        return null;
+        Optional<Color> color = colorRepository.findById(id);
+        if(color.isPresent()) {
+            return colorMapper.mapToColorDTO(color.get());
+        } else throw new NotFoundException("Could not find color");
+
     }
 
     @Override

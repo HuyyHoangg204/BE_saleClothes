@@ -3,6 +3,7 @@ package com.sale_clothes.nhom11.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.sale_clothes.nhom11.dto.response.ProductDetailResponseDTO;
 import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -79,6 +80,43 @@ public class SanPhamController {
         List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductDetails();
         return ApiResponse.<List<ProductResponseDTO>>builder()
                 .result(productResponseDTOList)
+                .build();
+    }
+    @GetMapping("/bestSellerProduct")
+    public ApiResponse<List<ProductResponseDTO>> getBestSellerProduct() {
+        List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();
+        return ApiResponse.<List<ProductResponseDTO>>builder()
+                .result(productResponseDTOList)
+                .build();
+    }
+    @GetMapping("/flashSaleProduct")
+    public ApiResponse<List<ProductResponseDTO>> getFlashSaleProduct() {
+        List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();
+        return ApiResponse.<List<ProductResponseDTO>>builder()
+                .result(productResponseDTOList)
+                .build();
+    }
+    @GetMapping("/recommendProduct")
+    public ApiResponse<List<ProductResponseDTO>> getRecommendProduct() {
+        List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();
+        return ApiResponse.<List<ProductResponseDTO>>builder()
+                .result(productResponseDTOList)
+                .build();
+    }
+
+    @GetMapping("/detailProduct/{id}")
+    public ApiResponse<ProductDetailResponseDTO> getProductDetail(@PathVariable int id) {
+        ProductDetailResponseDTO productDetailResponseDTO = sanPhamService.getProductDetail(id);
+        return ApiResponse.<ProductDetailResponseDTO>builder()
+                .result(productDetailResponseDTO)
+                .build();
+    }
+
+    @GetMapping("/productsByIds")
+    public ApiResponse<List<ProductResponseDTO>> getListProductByIds(@RequestParam List<Integer> ids) {
+        List<ProductResponseDTO> productResponseDTO = sanPhamService.getProductListByListId(ids);
+        return ApiResponse.<List<ProductResponseDTO>>builder()
+                .result(productResponseDTO)
                 .build();
     }
 }
