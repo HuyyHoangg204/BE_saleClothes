@@ -35,7 +35,9 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINT = {
         "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout",
             "/auth/refresh", "/images/**", "/api/v1/redis","/api/v1/newProduct",
-            "/api/v1/bestSellerProduct", "/api/v1/flashSaleProduct","/api/v1/detailProduct/*","/api/v1/color/*","/api/v1/productsByIds","/api/v1/recommendProduct"
+            "/api/v1/bestSellerProduct", "/api/v1/flashSaleProduct","/api/v1/detailProduct/*",
+            "/api/v1/color/*","/api/v1/productsByIds","/api/v1/recommendProduct","/api/v1/*/add",
+            "/api/v1/getCart/*","/api/v1/*/removeCart","/api/v1/productCart/*",
     };
 
     @Bean
@@ -50,6 +52,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT)
                 .permitAll()
+                        .requestMatchers(HttpMethod.DELETE,PUBLIC_ENDPOINT)
+                        .permitAll()
                 .anyRequest()
                 .authenticated());
         // OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token

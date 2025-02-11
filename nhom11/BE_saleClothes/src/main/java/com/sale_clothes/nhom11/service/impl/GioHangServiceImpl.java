@@ -1,6 +1,7 @@
 package com.sale_clothes.nhom11.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -19,6 +20,8 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String,String, Inte
     @Autowired
     private GioHangRepository gioHangRepository;
 
+
+
     public GioHangServiceImpl(RedisTemplate<String, Integer> redisTemplate, HashOperations<String, String, Integer> hashOperations) {
         super(redisTemplate, hashOperations);
     }
@@ -34,6 +37,41 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String,String, Inte
     @Override
     public List<GioHangDTO> getAllGioHang() {
         return null;
+    }
+
+    public void addToCart(String guestCartId, String productId, String size, String color, int quantity) {
+        String cartKey = productId + "_" + size + "_" + color; // Key theo format "SP001_L_Red"
+        Integer currentQuantity = (Integer) hashGet(guestCartId, cartKey);
+        if (currentQuantity == null) {
+            currentQuantity = 0;
+        }
+        hashSet(guestCartId, cartKey, currentQuantity + quantity);
+
+
+    }
+    // Lấy giỏ hàng của khách
+    public Map<String, Integer> getCart(String guestCartId) {
+        return getField(guestCartId);
+    }
+
+    // Xóa một sản phẩm khỏi giỏ hàng
+    public void removeFromCart(String guestCartId, String productId, String size, String color) {
+        String cartKey = productId + "_" + size + "_" + color;
+
+        Integer quantity = (Integer) hashGet(guestCartId, cartKey);
+
+        if(quantity != null) {
+            if(quantity > 1) {
+                hashSet(guestCartId,cartKey,quantity - 1);
+            } else {
+                delete(guestCartId,cartKey);
+            }
+        }
+    }
+
+    // Xóa toàn bộ giỏ hàng
+    public void clearCart(String guestCartId) {
+        delete(guestCartId);
     }
 
     @Override

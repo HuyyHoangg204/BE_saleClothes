@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class BaseRedisServiceImpl<K,F,V> implements BaseRedisService<K,F,V> {
+
     private final RedisTemplate<K, V> redisTemplate;
     private final HashOperations<K, F , V> hashOperations;
 
@@ -91,4 +92,5 @@ public class BaseRedisServiceImpl<K,F,V> implements BaseRedisService<K,F,V> {
             hashOperations.delete(key, field);
         }
     }
+
 }

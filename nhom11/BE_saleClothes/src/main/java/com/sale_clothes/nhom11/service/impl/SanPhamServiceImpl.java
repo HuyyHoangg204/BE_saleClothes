@@ -4,11 +4,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.sale_clothes.nhom11.dto.VariantDTO;
+import com.sale_clothes.nhom11.dto.response.ProductCartResponseDTO;
 import com.sale_clothes.nhom11.dto.response.ProductDetailResponseDTO;
 import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
-import com.sale_clothes.nhom11.entity.FileData;
-import com.sale_clothes.nhom11.entity.ProductVariant;
+import com.sale_clothes.nhom11.entity.*;
 import com.sale_clothes.nhom11.exception.NotFoundException;
+import com.sale_clothes.nhom11.repository.ColorRepository;
 import com.sale_clothes.nhom11.repository.ProductVariantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sale_clothes.nhom11.dto.SanPhamDTO;
-import com.sale_clothes.nhom11.entity.DanhMucCon;
-import com.sale_clothes.nhom11.entity.SanPham;
 import com.sale_clothes.nhom11.mapper.SanPhamMapper;
 import com.sale_clothes.nhom11.repository.DanhMucConRepository;
 import com.sale_clothes.nhom11.repository.SanPhamRepository;
@@ -42,6 +41,9 @@ public class SanPhamServiceImpl implements SanPhamService {
     private DanhMucConRepository danhMucConRepository;
     @Autowired
     private SanPhamMapper sanPhamMapper;
+
+    @Autowired
+    private ColorRepository colorRepository;
 
     @Override
     @Transactional
@@ -412,5 +414,39 @@ public class SanPhamServiceImpl implements SanPhamService {
         }
 
         return productResponseDTOList;
+    }
+
+
+    public ProductCartResponseDTO getInfoProductCart(int id, int idColor) {
+        ProductCartResponseDTO productCartResponseDTO = new ProductCartResponseDTO();
+        SanPham sanPham = sanPhamRepository.findById(id).get();
+
+        productCartResponseDTO.setProduct_id(sanPham.getProduct_id());
+        productCartResponseDTO.setName(sanPham.getName());
+        productCartResponseDTO.setBase_price(sanPham.getBase_price());
+
+        List<VariantDTO> variantDTOS = sanPham.getProductVariants().stream().map(variant -> {
+            List<String> imageUrls = new ArrayList<>();
+            VariantDTO variantDTO = new VariantDTO();
+
+            for(FileData fileData : variant.getFileDataList()) {
+                imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+            }
+            variantDTO.setColor_id(variant.getColor().getColorID());
+            variantDTO.setImageUrl(imageUrls);
+            return variantDTO;
+
+        }).collect(Collectors.toList());
+
+        for(VariantDTO variantDTO : variantDTOS) {
+            if(variantDTO.getColor_id() == idColor) {
+                productCartResponseDTO.setVariants(variantDTO);
+            }
+        }
+
+        Color color = colorRepository.findById(idColor).get();
+        productCartResponseDTO.setColorName(color.getColorName());
+
+        return productCartResponseDTO;
     }
 }

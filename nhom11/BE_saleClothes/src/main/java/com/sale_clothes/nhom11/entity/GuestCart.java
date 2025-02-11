@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class GuestCart {
     private String guestCartId;
-    private List<int> productIds;
+    private List<Integer> productIds;
 }
