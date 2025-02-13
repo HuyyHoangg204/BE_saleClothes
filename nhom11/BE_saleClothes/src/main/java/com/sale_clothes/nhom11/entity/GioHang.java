@@ -19,7 +19,9 @@ public class GioHang {
     @Column(name = "gh_ma")
     private Integer ghMa;
 
-    @OneToOne
-    @JoinColumn(name = "kh_username")
-    private KhachHang khUserName;
+    private String username;
+    private int productId;
+    private String size;
+    private int colorId;
+    private int quantity;
 }

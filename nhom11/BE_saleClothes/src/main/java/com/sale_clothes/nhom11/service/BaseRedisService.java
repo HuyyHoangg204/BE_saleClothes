@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface BaseRedisService <K,F, V> {
+public interface BaseRedisService<K, F, V> {
     void set(K key, V value);
 
     void SetTimeToLive(K key, long timeoutInDays);

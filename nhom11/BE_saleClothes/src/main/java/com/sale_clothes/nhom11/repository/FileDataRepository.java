@@ -14,15 +14,14 @@ import com.sale_clothes.nhom11.entity.FileData;
 public interface FileDataRepository extends JpaRepository<FileData, Integer> {
     Optional<FileData> findByName(String fileName);
 
-
     @Query("select fileData from FileData fileData WHERE fileData.productVariant.variant_id = :variant_id")
     List<FileData> findAllByVariantId(@Param("variant_id") Integer variant_id);
 
     @Modifying
     @Transactional
-    @Query("delete from FileData fileData where fileData.name = :name and fileData.productVariant.variant_id = :variant_id")
+    @Query(
+            "delete from FileData fileData where fileData.name = :name and fileData.productVariant.variant_id = :variant_id")
     void deleteByNameAndSpMa(@Param("name") String name, @Param("variant_id") Integer variant_id);
-
 
     void deleteById(Long id);
 }

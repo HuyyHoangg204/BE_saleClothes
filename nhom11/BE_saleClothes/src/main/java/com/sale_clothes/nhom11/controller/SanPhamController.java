@@ -3,24 +3,22 @@ package com.sale_clothes.nhom11.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.sale_clothes.nhom11.dto.response.ProductCartResponseDTO;
-import com.sale_clothes.nhom11.dto.response.ProductDetailResponseDTO;
-import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.sale_clothes.nhom11.dto.SanPhamDTO;
 import com.sale_clothes.nhom11.dto.response.ApiResponse;
+import com.sale_clothes.nhom11.dto.response.ProductCartResponseDTO;
+import com.sale_clothes.nhom11.dto.response.ProductDetailResponseDTO;
+import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
 import com.sale_clothes.nhom11.service.impl.SanPhamServiceImpl;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-
 @RequestMapping("/api/v1")
-
 public class SanPhamController {
     @Autowired
     private SanPhamServiceImpl sanPhamService;
@@ -66,7 +64,9 @@ public class SanPhamController {
     @GetMapping("/showSanPham")
     public ApiResponse<List<Map<String, Object>>> getAllSanPhamToShow() {
         List<Map<String, Object>> listProduct = sanPhamService.getSanPhamToShowManager();
-        return ApiResponse.<List<Map<String, Object>>>builder().result(listProduct).build();
+        return ApiResponse.<List<Map<String, Object>>>builder()
+                .result(listProduct)
+                .build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -83,6 +83,7 @@ public class SanPhamController {
                 .result(productResponseDTOList)
                 .build();
     }
+
     @GetMapping("/bestSellerProduct")
     public ApiResponse<List<ProductResponseDTO>> getBestSellerProduct() {
         List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();
@@ -90,6 +91,7 @@ public class SanPhamController {
                 .result(productResponseDTOList)
                 .build();
     }
+
     @GetMapping("/flashSaleProduct")
     public ApiResponse<List<ProductResponseDTO>> getFlashSaleProduct() {
         List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();
@@ -97,6 +99,7 @@ public class SanPhamController {
                 .result(productResponseDTOList)
                 .build();
     }
+
     @GetMapping("/recommendProduct")
     public ApiResponse<List<ProductResponseDTO>> getRecommendProduct() {
         List<ProductResponseDTO> productResponseDTOList = sanPhamService.getProductBestSeller();

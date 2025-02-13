@@ -1,11 +1,12 @@
 package com.sale_clothes.nhom11.dto.response;
 
+import java.util.List;
+
 import com.sale_clothes.nhom11.dto.VariantDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

@@ -1,9 +1,10 @@
 package com.sale_clothes.nhom11.dto;
 
-import lombok.Data;
-
 import java.util.List;
 import java.util.Set;
+
+import lombok.Data;
+
 @Data
 public class VariantDTO {
     private Integer variant_id;

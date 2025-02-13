@@ -7,8 +7,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sale_clothes.nhom11.entity.KhachHang;
 import com.sale_clothes.nhom11.enums.Role;
@@ -20,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class ApplicationInitConfig{
+public class ApplicationInitConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -41,6 +39,4 @@ public class ApplicationInitConfig{
             }
         };
     }
-
-
 }

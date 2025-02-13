@@ -1,13 +1,14 @@
 package com.sale_clothes.nhom11.controller;
 
-import com.sale_clothes.nhom11.dto.ProductVariantDTO;
-import com.sale_clothes.nhom11.dto.response.ApiResponse;
-import com.sale_clothes.nhom11.service.ProductVariantService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.sale_clothes.nhom11.dto.ProductVariantDTO;
+import com.sale_clothes.nhom11.dto.response.ApiResponse;
+import com.sale_clothes.nhom11.service.ProductVariantService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -34,9 +35,7 @@ public class ProductVariantController {
         } catch (Exception e) {
             message = "Delete failed!! Error: " + e.getMessage();
         }
-        return ApiResponse.<String>builder()
-                .message(message)
-                .build();
+        return ApiResponse.<String>builder().message(message).build();
     }
 
     @GetMapping("/productVariantsByProductID/{id}")
@@ -50,18 +49,16 @@ public class ProductVariantController {
 
     @PutMapping("/update_productVariant/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ApiResponse<String> updateProductVariant(@PathVariable int id,@RequestBody ProductVariantDTO productVariantDTO) {
+    public ApiResponse<String> updateProductVariant(
+            @PathVariable int id, @RequestBody ProductVariantDTO productVariantDTO) {
 
         String message;
         try {
-            productVariantService.update(id,productVariantDTO);
+            productVariantService.update(id, productVariantDTO);
             message = "Update product variant successfully!";
         } catch (Exception e) {
             message = "Error updating product variant: " + e.getMessage();
         }
-        return ApiResponse.<String>builder()
-                .message(message)
-                .build();
+        return ApiResponse.<String>builder().message(message).build();
     }
-
 }

@@ -29,7 +29,7 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    //Upload a image
+    // Upload a image
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/fileSystem")
     public ResponseEntity<?> uploadImageToFileSystem(
@@ -38,11 +38,12 @@ public class ImageController {
         return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
     }
 
-    //Upload multiple images
+    // Upload multiple images
     @PostMapping("images/fileSystem")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> uploadImagesToFileSystem(
-            @RequestParam("files") List<MultipartFile> files, @RequestParam("variant_id") Integer variant_id) throws IOException {
+            @RequestParam("files") List<MultipartFile> files, @RequestParam("variant_id") Integer variant_id)
+            throws IOException {
         String uploadImages = imageService.uploadImagesToFileSystem(files, variant_id);
         return ResponseEntity.status(HttpStatus.OK).body(uploadImages);
     }
@@ -55,7 +56,7 @@ public class ImageController {
                 .body(imageData);
     }
 
-    //Get all images by variant_id
+    // Get all images by variant_id
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/image/fileSystems/{variant_id}")
     public ApiResponse<List<ImageDataResponse>> getAllImagesBySpMa(@PathVariable Integer variant_id) {
@@ -63,11 +64,11 @@ public class ImageController {
         ArrayList<ImageDataResponse> imageDataResponses = new ArrayList<>();
         for (FileData fileData : fileDataList) {
             imageDataResponses.add(ImageDataResponse.builder()
-                            .id(fileData.getId())
+                    .id(fileData.getId())
                     .name(fileData.getName())
                     .imageUrl("http://localhost:8081/images/" + fileData.getName())
                     .type(fileData.getType())
-                            .variant_id(fileData.getProductVariant().getVariant_id())
+                    .variant_id(fileData.getProductVariant().getVariant_id())
                     .build());
         }
         return ApiResponse.<List<ImageDataResponse>>builder()
@@ -75,8 +76,7 @@ public class ImageController {
                 .build();
     }
 
-
-    //Get image by imageName
+    // Get image by imageName
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws Exception {
         Path imagePath = Paths.get("F:/WorkSpace/Project/saleClothes/Image/").resolve(imageName);
@@ -98,7 +98,6 @@ public class ImageController {
         }
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/image/fileSystems/{spMa}")
     public ApiResponse<?> deleteByNameAndSpMa(
@@ -114,24 +113,22 @@ public class ImageController {
         }
     }
 
-
-//    @GetMapping("/images")
-//    public ApiResponse<List<ImageDataResponse>> getAllImage() throws Exception {
-//        List<FileData> fileDataList = imageService.getAllImage();
-//        ArrayList<ImageDataResponse> responseList = new ArrayList<ImageDataResponse>();
-//        for (FileData fileData : fileDataList) {
-//            responseList.add(ImageDataResponse.builder()
-//                    .maSp(fileData.getSanPham().getProduct_id())
-//                    .name(fileData.getName())
-//                    .imageUrl("http://51.79.167.161:8081/images/" + fileData.getName())
-//                    .type(fileData.getType())
-//                    .build());
-//        }
-//        return ApiResponse.<List<ImageDataResponse>>builder()
-//                .result(responseList)
-//                .build();
-//    }
-
+    //    @GetMapping("/images")
+    //    public ApiResponse<List<ImageDataResponse>> getAllImage() throws Exception {
+    //        List<FileData> fileDataList = imageService.getAllImage();
+    //        ArrayList<ImageDataResponse> responseList = new ArrayList<ImageDataResponse>();
+    //        for (FileData fileData : fileDataList) {
+    //            responseList.add(ImageDataResponse.builder()
+    //                    .maSp(fileData.getSanPham().getProduct_id())
+    //                    .name(fileData.getName())
+    //                    .imageUrl("http://51.79.167.161:8081/images/" + fileData.getName())
+    //                    .type(fileData.getType())
+    //                    .build());
+    //        }
+    //        return ApiResponse.<List<ImageDataResponse>>builder()
+    //                .result(responseList)
+    //                .build();
+    //    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/image/fileSystem/{imageId}")

@@ -6,14 +6,13 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
-import com.sale_clothes.nhom11.entity.ProductVariant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sale_clothes.nhom11.entity.FileData;
-import com.sale_clothes.nhom11.entity.SanPham;
+import com.sale_clothes.nhom11.entity.ProductVariant;
 import com.sale_clothes.nhom11.exception.NotFoundException;
 import com.sale_clothes.nhom11.repository.FileDataRepository;
 import com.sale_clothes.nhom11.repository.SanPhamRepository;
@@ -27,11 +26,9 @@ public class ImageService {
     @Autowired
     private SanPhamRepository sanPhamRepository;
 
-
     private final String FOLDER_PATH = "F:\\WorkSpace\\Project\\saleClothes\\Image\\";
 
-
-    //Upload 1 image
+    // Upload 1 image
     @Transactional
     public String uploadImageToFileSystem(MultipartFile file, Integer variant_id) throws IOException {
         String filePath = FOLDER_PATH + file.getOriginalFilename();
@@ -39,9 +36,7 @@ public class ImageService {
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath)
-
                 .productVariant(ProductVariant.builder().build())
-
                 .build());
         file.transferTo(new File(filePath));
         if (filePath != null) {
@@ -50,8 +45,7 @@ public class ImageService {
         return null;
     }
 
-
-    //Upload multiple images
+    // Upload multiple images
     public String uploadImagesToFileSystem(List<MultipartFile> files, Integer variant_id) throws IOException {
 
         StringBuilder resultMessage = new StringBuilder();
@@ -65,7 +59,8 @@ public class ImageService {
                     .name(file.getOriginalFilename())
                     .type(file.getContentType())
                     .filePath(filePath)
-                    .productVariant(ProductVariant.builder().variant_id(variant_id).build())
+                    .productVariant(
+                            ProductVariant.builder().variant_id(variant_id).build())
                     .build());
 
             // Lưu file vào hệ thống tệp
@@ -85,8 +80,6 @@ public class ImageService {
 
         return "No files were uploaded.";
     }
-
-
 
     public void deleteByNameAndSpMa(List<String> names, Integer spMa) {
 

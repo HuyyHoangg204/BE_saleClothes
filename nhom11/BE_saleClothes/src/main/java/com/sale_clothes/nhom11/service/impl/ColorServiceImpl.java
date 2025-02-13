@@ -1,18 +1,18 @@
 package com.sale_clothes.nhom11.service.impl;
 
-import com.sale_clothes.nhom11.dto.ColorDTO;
-import com.sale_clothes.nhom11.entity.Color;
-import com.sale_clothes.nhom11.exception.NotFoundException;
-import com.sale_clothes.nhom11.logger.ultil.Logger;
-import com.sale_clothes.nhom11.mapper.ColorMapper;
-import com.sale_clothes.nhom11.repository.ColorRepository;
-import com.sale_clothes.nhom11.service.ColorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sale_clothes.nhom11.dto.ColorDTO;
+import com.sale_clothes.nhom11.entity.Color;
+import com.sale_clothes.nhom11.exception.NotFoundException;
+import com.sale_clothes.nhom11.mapper.ColorMapper;
+import com.sale_clothes.nhom11.repository.ColorRepository;
+import com.sale_clothes.nhom11.service.ColorService;
 
 @Service
 public class ColorServiceImpl implements ColorService {
@@ -21,7 +21,6 @@ public class ColorServiceImpl implements ColorService {
 
     @Autowired
     private ColorMapper colorMapper;
-
 
     @Override
     public ColorDTO create(ColorDTO dto) {
@@ -35,7 +34,7 @@ public class ColorServiceImpl implements ColorService {
             throw new RuntimeException("Mã màu không hợp lệ! Vui lòng nhập mã màu HEX hợp lệ.");
         }
 
-        if(colorRepository.existsByColorCode(dto.getColorCode())) {
+        if (colorRepository.existsByColorCode(dto.getColorCode())) {
             throw new RuntimeException("Mã màu đã tồn tai trong hệ thống!!");
         }
 
@@ -45,8 +44,6 @@ public class ColorServiceImpl implements ColorService {
 
         var dtoReturn = colorMapper.mapToColorDTO(savedColor);
 
-
-
         return dtoReturn;
     }
 
@@ -54,7 +51,7 @@ public class ColorServiceImpl implements ColorService {
     public List<ColorDTO> getAll() {
         List<Color> colorList = colorRepository.findAll();
         List<ColorDTO> colorDTOList = new ArrayList<>();
-        for(Color color : colorList) {
+        for (Color color : colorList) {
             colorDTOList.add(colorMapper.mapToColorDTO(color));
         }
         return colorDTOList;
@@ -63,25 +60,20 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public ColorDTO getById(int id) {
         Optional<Color> color = colorRepository.findById(id);
-        if(color.isPresent()) {
+        if (color.isPresent()) {
             return colorMapper.mapToColorDTO(color.get());
         } else throw new NotFoundException("Could not find color");
-
     }
 
     @Override
-    public void update(int id, ColorDTO dto) {
-
-    }
+    public void update(int id, ColorDTO dto) {}
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) {}
 
-    }
     public boolean isHexColor(String colorCode) {
         // Kiểm tra nếu mã màu có dạng # và theo sau là 6 ký tự hợp lệ (0-9, A-F, a-f)
         String regex = "^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$";
         return colorCode.matches(regex);
     }
-
 }

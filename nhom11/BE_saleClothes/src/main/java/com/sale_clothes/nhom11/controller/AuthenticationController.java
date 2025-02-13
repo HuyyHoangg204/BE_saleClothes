@@ -15,6 +15,7 @@ import com.sale_clothes.nhom11.dto.response.AuthenticationResponse;
 import com.sale_clothes.nhom11.dto.response.IntrospectResponse;
 import com.sale_clothes.nhom11.entity.InvalidatedToken;
 import com.sale_clothes.nhom11.service.impl.AuthenticationService;
+import com.sale_clothes.nhom11.service.impl.GioHangServiceImpl;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,11 +23,19 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private GioHangServiceImpl gioHangService;
+
     @PostMapping("/login")
-    public ApiResponse<AuthenticationResponse> authenticationResponse(@RequestBody KhachHangDTO khachHangDTO) {
+    public ApiResponse<AuthenticationResponse> authenticationResponse(
+            @RequestBody KhachHangDTO khachHangDTO, @RequestParam(required = false) String guestCartId) {
         ApiResponse<AuthenticationResponse> response = new ApiResponse<>();
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(khachHangDTO);
         response.setResult(authenticationResponse);
+
+        if(guestCartId != null && !guestCartId.trim().isEmpty()) {
+            gioHangService.syncCartAfterLogin(guestCartId, khachHangDTO.getKhUserName());
+        }
         return response;
     }
 

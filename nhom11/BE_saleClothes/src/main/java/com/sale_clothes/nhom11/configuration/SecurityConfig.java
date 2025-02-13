@@ -9,17 +9,16 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.experimental.NonFinal;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import lombok.experimental.NonFinal;
 
 @Configuration
 @EnableWebSecurity
@@ -33,27 +32,37 @@ public class SecurityConfig {
     private CustomJwtDecoder jwtDecoder;
 
     private final String[] PUBLIC_ENDPOINT = {
-        "/api/add-khachhang", "/auth/login", "/auth/introspect", "/auth/logout",
-            "/auth/refresh", "/images/**", "/api/v1/redis","/api/v1/newProduct",
-            "/api/v1/bestSellerProduct", "/api/v1/flashSaleProduct","/api/v1/detailProduct/*",
-            "/api/v1/color/*","/api/v1/productsByIds","/api/v1/recommendProduct","/api/v1/*/add",
-            "/api/v1/getCart/*","/api/v1/*/removeCart","/api/v1/productCart/*",
+        "/api/add-khachhang",
+        "/auth/login",
+        "/auth/introspect",
+        "/auth/logout",
+        "/auth/refresh",
+        "/images/**",
+        "/api/v1/redis",
+        "/api/v1/newProduct",
+        "/api/v1/bestSellerProduct",
+        "/api/v1/flashSaleProduct",
+        "/api/v1/detailProduct/*",
+        "/api/v1/color/*",
+        "/api/v1/productsByIds",
+        "/api/v1/recommendProduct",
+        "/api/v1/*/add",
+        "/api/v1/getCart/*",
+        "/api/v1/*/removeCart",
+        "/api/v1/productCart/*",
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         // Phân quyền truy cập
-        httpSecurity
-                .cors()
-                .and()
-                .csrf().disable()
-                .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINT)
+        httpSecurity.cors().and().csrf().disable().authorizeHttpRequests(request -> request.requestMatchers(
+                        HttpMethod.GET, PUBLIC_ENDPOINT)
                 .permitAll()
                 .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT)
                 .permitAll()
-                        .requestMatchers(HttpMethod.DELETE,PUBLIC_ENDPOINT)
-                        .permitAll()
+                .requestMatchers(HttpMethod.DELETE, PUBLIC_ENDPOINT)
+                .permitAll()
                 .anyRequest()
                 .authenticated());
         // OAuth2 Resource Server với JWT, xử lý các yêu cầu có chứa JWT token
@@ -90,7 +99,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 }

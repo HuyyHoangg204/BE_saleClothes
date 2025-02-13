@@ -1,9 +1,10 @@
 package com.sale_clothes.nhom11.mapper;
 
-import com.sale_clothes.nhom11.dto.ProductVariantDTO;
-import com.sale_clothes.nhom11.entity.ProductVariant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import com.sale_clothes.nhom11.dto.ProductVariantDTO;
+import com.sale_clothes.nhom11.entity.ProductVariant;
 
 @Mapper(componentModel = "spring")
 public interface ProductVariantMapper {

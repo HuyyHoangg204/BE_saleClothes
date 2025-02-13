@@ -3,14 +3,10 @@ package com.sale_clothes.nhom11.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.PatternTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -18,11 +14,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfiguration {
     @Value("6379")
     private String redisPort;
+
     @Value("localhost")
     private String redisHost;
 
     @Bean
-    JedisConnectionFactory jedisConnectionFactory () {
+    JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setPort(Integer.parseInt(redisPort));
         redisStandaloneConfiguration.setHostName(redisHost);
@@ -31,7 +28,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    <K,V>RedisTemplate<K, V> redisTemplate() {
+    <K, V> RedisTemplate<K, V> redisTemplate() {
         RedisTemplate<K, V> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
@@ -45,10 +42,7 @@ public class RedisConfiguration {
     }
 
     @Bean
-    <K,F,V>HashOperations<K,F,V>hashOperations(RedisTemplate<K,V> redisTemplate) {
+    <K, F, V> HashOperations<K, F, V> hashOperations(RedisTemplate<K, V> redisTemplate) {
         return redisTemplate.opsForHash();
     }
-
-
-
 }
