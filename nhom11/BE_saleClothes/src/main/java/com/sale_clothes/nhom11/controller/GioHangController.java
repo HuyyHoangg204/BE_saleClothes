@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,21 +38,20 @@ public class GioHangController {
 
     @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     @PostMapping("/addToCartAfterLogin")
-    public ApiResponse<String> addToCartAfterLogin(@RequestParam String username,
-                                                   @RequestParam int productID,
-                                                   @RequestParam String size,
-                                                   @RequestParam int colorId,
-                                                   @RequestParam int quantity) {
+    public ApiResponse<String> addToCartAfterLogin(
+            @RequestParam String username,
+            @RequestParam int productID,
+            @RequestParam String size,
+            @RequestParam int colorId,
+            @RequestParam int quantity) {
         String message;
         try {
-            gioHangServiceImpl.addToCartAfterLogin(username,productID,size,colorId,quantity);
-             message = "Thêm vào giỏ hàng thành công!!";
+            gioHangServiceImpl.addToCartAfterLogin(username, productID, size, colorId, quantity);
+            message = "Thêm vào giỏ hàng thành công!!";
         } catch (Exception e) {
-             message = "Thêm vào giò hàng thất bại: " + e;
+            message = "Thêm vào giò hàng thất bại: " + e;
         }
-        return ApiResponse.<String>builder()
-                .message(message)
-                .build();
+        return ApiResponse.<String>builder().message(message).build();
     }
 
     // Get cart before login
@@ -64,17 +62,15 @@ public class GioHangController {
         return ApiResponse.<Map<String, Integer>>builder().result(result).build();
     }
 
-    //Get cart after login
+    // Get cart after login
     @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     @GetMapping("/getCartAfterLogin/{username}")
     public ApiResponse<Map<String, Integer>> getCartAfterLogin(@PathVariable String username) {
         Map<String, Integer> result = gioHangServiceImpl.getCartAfterLogin(username);
-        return ApiResponse.<Map<String, Integer>>builder()
-                .result(result)
-                .build();
+        return ApiResponse.<Map<String, Integer>>builder().result(result).build();
     }
 
-    //Delete product before login
+    // Delete product before login
     @DeleteMapping("/{guestCartId}/removeCart")
     public String removeFromCart(
             @PathVariable String guestCartId,
@@ -85,7 +81,7 @@ public class GioHangController {
         return "Removed product " + productId + " (Size: " + size + ", Color: " + color + ") from cart " + guestCartId;
     }
 
-    //Delete product after login
+    // Delete product after login
     @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     @DeleteMapping("/removeCartAfterLogin")
     public String removeFromCartAfterLogin(
@@ -93,7 +89,7 @@ public class GioHangController {
             @RequestParam int productId,
             @RequestParam String size,
             @RequestParam int colorId) {
-        gioHangServiceImpl.removeFromCartAfterLogin(username,productId,size,colorId);
+        gioHangServiceImpl.removeFromCartAfterLogin(username, productId, size, colorId);
         return "Removed product " + productId + " (Size: " + size + ", Color: " + colorId + ") from cart " + username;
     }
 }

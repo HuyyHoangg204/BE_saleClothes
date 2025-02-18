@@ -3,6 +3,8 @@ package com.sale_clothes.nhom11.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -123,12 +125,38 @@ public class SanPhamController {
                 .result(productResponseDTO)
                 .build();
     }
+    @GetMapping("/productsByCategory/{idDmc}")
+    public ApiResponse<Page<ProductResponseDTO>> getListProductDmcId(@PathVariable int idDmc,
+                                                                     @RequestParam(defaultValue = "1") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "0")int isSort) {
+        Page<ProductResponseDTO> productResponseDTO = sanPhamService.getAllProductsByCategory(idDmc, page - 1, size,isSort);
+        return ApiResponse.<Page<ProductResponseDTO>>builder()
+                .result(productResponseDTO)
+                .build();
+    }
+
 
     @GetMapping("/productCart/{id}")
     public ApiResponse<ProductCartResponseDTO> getProductCart(@PathVariable int id, @RequestParam int idColor) {
         ProductCartResponseDTO productCartResponseDTO = sanPhamService.getInfoProductCart(id, idColor);
         return ApiResponse.<ProductCartResponseDTO>builder()
                 .result(productCartResponseDTO)
+                .build();
+    }
+
+    @GetMapping("/filterProduct/{idDmc}")
+    public ApiResponse<Page<ProductResponseDTO>> filterListProductDmcId(@PathVariable int idDmc,
+                                                                     @RequestParam(defaultValue = "1") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "0")int isSort,
+                                                                        @RequestParam(defaultValue = "0") int color,
+                                                                        @RequestParam(required = false) String sizeClothes,
+                                                                        @RequestParam(defaultValue = "0") double fromPrice,
+                                                                        @RequestParam(defaultValue = "999999999999") double toPrice) {
+        Page<ProductResponseDTO> productResponseDTO = sanPhamService.filterAllProductsByCategory(idDmc, page - 1, size,isSort,sizeClothes,color,fromPrice,toPrice);
+        return ApiResponse.<Page<ProductResponseDTO>>builder()
+                .result(productResponseDTO)
                 .build();
     }
 }

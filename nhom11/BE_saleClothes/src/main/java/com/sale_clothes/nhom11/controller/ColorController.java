@@ -25,7 +25,6 @@ public class ColorController {
     }
 
     @GetMapping("/colors")
-    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<List<ColorDTO>> getAllColor() {
         List<ColorDTO> colorDTOList = colorService.getAll();
         return ApiResponse.<List<ColorDTO>>builder().result(colorDTOList).build();

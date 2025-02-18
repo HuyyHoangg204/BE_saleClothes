@@ -33,7 +33,7 @@ public class AuthenticationController {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(khachHangDTO);
         response.setResult(authenticationResponse);
 
-        if(guestCartId != null && !guestCartId.trim().isEmpty()) {
+        if (guestCartId != null && !guestCartId.trim().isEmpty()) {
             gioHangService.syncCartAfterLogin(guestCartId, khachHangDTO.getKhUserName());
         }
         return response;

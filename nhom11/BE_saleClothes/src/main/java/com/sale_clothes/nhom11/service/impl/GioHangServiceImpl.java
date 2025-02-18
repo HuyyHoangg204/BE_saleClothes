@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.sale_clothes.nhom11.exception.NotFoundException;
-import com.sale_clothes.nhom11.repository.ColorRepository;
-import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,7 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sale_clothes.nhom11.dto.GioHangDTO;
 import com.sale_clothes.nhom11.dto.kafkaEvent.CartEvent;
 import com.sale_clothes.nhom11.entity.GioHang;
+import com.sale_clothes.nhom11.exception.NotFoundException;
+import com.sale_clothes.nhom11.repository.ColorRepository;
 import com.sale_clothes.nhom11.repository.GioHangRepository;
+import com.sale_clothes.nhom11.repository.KhachHangRepository;
 import com.sale_clothes.nhom11.service.GioHangService;
 
 @Service
@@ -54,7 +54,7 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
         return null;
     }
 
-    //Add to cart before login: store in redis
+    // Add to cart before login: store in redis
     public void addToCart(String guestCartId, String productId, String size, String color, int quantity) {
         String cartKey = productId + "_" + size + "_" + color; // Key theo format "SP001_L_Red"
         Integer currentQuantity = (Integer) hashGet(guestCartId, cartKey);
@@ -64,10 +64,11 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
         hashSet(guestCartId, cartKey, currentQuantity + quantity);
     }
 
-    //Add to cart after login: store in mysql
-    public void addToCartAfterLogin(String username, int productId,String size,int colorId, int quantity) {
+    // Add to cart after login: store in mysql
+    public void addToCartAfterLogin(String username, int productId, String size, int colorId, int quantity) {
 
-        Optional<GioHang> existingCartItem = gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(username,productId,size,colorId);
+        Optional<GioHang> existingCartItem =
+                gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(username, productId, size, colorId);
 
         if (existingCartItem.isPresent()) {
             GioHang gioHang = existingCartItem.get();
@@ -82,10 +83,6 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
             gioHang.setQuantity(quantity);
             gioHangRepository.save(gioHang); // Thêm mới nếu chưa tồn tại
         }
-
-
-
-
     }
     // Then login: sync cart redis -> mysql
     @Transactional
@@ -96,8 +93,9 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
                 GioHang gioHang = new GioHang();
                 String productKey = entry.getKey();
                 String[] data = productKey.split("_");
-                Optional<GioHang> gioHang1 = gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(username,Integer.parseInt(data[0]),data[1],Integer.parseInt(data[2]));
-                if(gioHang1.isPresent()) {
+                Optional<GioHang> gioHang1 = gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(
+                        username, Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]));
+                if (gioHang1.isPresent()) {
                     GioHang gioHang2 = gioHang1.get();
                     int quantity = gioHang2.getQuantity() + entry.getValue();
 
@@ -112,7 +110,6 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
                     gioHang.setColorId(Integer.parseInt(data[2]));
                     gioHangRepository.save(gioHang);
                 }
-
             }
 
             delete(guestCartId);
@@ -126,10 +123,10 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
 
     // Get Product from cart after login
     public Map<String, Integer> getCartAfterLogin(String username) {
-        Map<String,Integer> products = new HashMap<>();
+        Map<String, Integer> products = new HashMap<>();
         List<GioHang> gioHang = gioHangRepository.findAllByUsername(username);
 
-        for(GioHang gioHang1 : gioHang) {
+        for (GioHang gioHang1 : gioHang) {
             int productId = gioHang1.getProductId();
             String size = gioHang1.getSize();
             int colorId = gioHang1.getColorId();
@@ -137,7 +134,7 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(productId).append("_").append(size).append("_").append(colorId);
-            products.put(stringBuilder.toString(),quantity);
+            products.put(stringBuilder.toString(), quantity);
         }
         return products;
     }
@@ -159,10 +156,11 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
 
     // Xóa một sản phẩm khỏi giỏ hàng (After login)
     public void removeFromCartAfterLogin(String username, int productId, String size, int colorId) {
-        Optional<GioHang> gioHang = gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(username,productId,size,colorId);
-        if(gioHang.isPresent()) {
+        Optional<GioHang> gioHang =
+                gioHangRepository.findByUsernameAndProductIdAndSizeAndColorId(username, productId, size, colorId);
+        if (gioHang.isPresent()) {
             GioHang gioHang1 = gioHang.get();
-            if(gioHang1.getQuantity() > 1) {
+            if (gioHang1.getQuantity() > 1) {
                 gioHang1.setQuantity(gioHang1.getQuantity() - 1);
                 gioHangRepository.save(gioHang1);
             } else {

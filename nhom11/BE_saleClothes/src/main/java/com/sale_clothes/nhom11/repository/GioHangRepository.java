@@ -13,7 +13,8 @@ import com.sale_clothes.nhom11.entity.GioHang;
 public interface GioHangRepository extends JpaRepository<GioHang, Integer> {
     List<GioHang> findAllByUsername(String username);
 
-    Optional<GioHang> findByUsernameAndProductIdAndSizeAndColorId(String username, int productId,String size, int colorId);
+    Optional<GioHang> findByUsernameAndProductIdAndSizeAndColorId(
+            String username, int productId, String size, int colorId);
 
     @Modifying
     @Query("DELETE from GioHang c where c.username = :username and c.productId = :productId")
