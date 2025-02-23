@@ -3,6 +3,7 @@ package com.sale_clothes.nhom11.service.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,8 +60,19 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public KhachHangDTO updateKhachHang(String id, KhachHangDTO khachHangDTO) {
-        return null;
+    public void updateKhachHang(String id, KhachHangDTO khachHangDTO) {
+        Optional<KhachHang> khachHang = khachHangRepository.findById(id);
+        if(khachHang.isPresent()) {
+            KhachHang khachHang1 = khachHang.get();
+            khachHang1.setKhTen(khachHangDTO.getKhTen());
+            khachHang1.setKhDienThoai(khachHangDTO.getKhDienThoai());
+            khachHang1.setKhGioiTinh(khachHangDTO.getKhGioiTinh());
+            khachHang1.setKhNgaySinh(khachHangDTO.getKhNgaySinh());
+            khachHang1.setKhNamSinh(khachHangDTO.getKh_namSinh());
+            khachHang1.setKhThangSinh(khachHangDTO.getKh_thangSinh());
+            khachHangRepository.save(khachHang1);
+        }
+
     }
 
     @Override

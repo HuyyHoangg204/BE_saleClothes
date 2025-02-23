@@ -30,6 +30,21 @@ public class KhachHangController {
         return ApiResponse.<KhachHangDTO>builder().result(savedKhachHang).build();
     }
 
+    @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
+    @PutMapping("/update-khachhang/{username}")
+    public ApiResponse<String> updateKhachHang(@RequestBody @Valid KhachHangDTO khachHangDTO, @PathVariable String username) {
+        String message;
+        try {
+            khachHangServiceImpl.updateKhachHang(username, khachHangDTO);
+            message = "Updated user successfully";
+        } catch (Exception e) {
+            message = "Failed to update user";
+        }
+        return ApiResponse.<String>builder()
+                .message(message)
+                .build();
+    }
+
     @PreAuthorize("hasRole('ADMIN')") // Kiểm tra trước mới thực hiện
     @GetMapping("/khachhangs")
     public ApiResponse<List<KhachHangDTO>> getAllKhachHang() {

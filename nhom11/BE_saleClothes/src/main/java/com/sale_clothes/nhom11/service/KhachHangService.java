@@ -9,7 +9,7 @@ public interface KhachHangService {
 
     List<KhachHangDTO> getAllKhachHang();
 
-    KhachHangDTO updateKhachHang(String id, KhachHangDTO khachHangDTO);
+    void updateKhachHang(String id, KhachHangDTO khachHangDTO);
 
     KhachHangDTO getKhachHangById(String id);
 
