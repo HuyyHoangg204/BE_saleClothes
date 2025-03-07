@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FavoriteProductServiceImpl implements IService<FavoriteProduct> {
+public class FavoriteProductServiceImpl implements IService<FavoriteProduct,Long> {
     @Autowired
     private FavoriteProductRepository favoriteProductRepository;
     //Add product Favorite list
@@ -95,16 +95,16 @@ public class FavoriteProductServiceImpl implements IService<FavoriteProduct> {
     }
 
     @Override
-    public FavoriteProduct getById(int id) {
+    public FavoriteProduct getById(Long id) {
         return null;
     }
 
     @Override
-    public void update(int id, FavoriteProduct dto) {
+    public void update(Long id, FavoriteProduct dto) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
     }
 }

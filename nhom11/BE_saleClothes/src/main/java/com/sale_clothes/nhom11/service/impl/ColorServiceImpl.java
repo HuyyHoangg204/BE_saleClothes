@@ -58,7 +58,7 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
-    public ColorDTO getById(int id) {
+    public ColorDTO getById(Integer id) {
         Optional<Color> color = colorRepository.findById(id);
         if (color.isPresent()) {
             return colorMapper.mapToColorDTO(color.get());
@@ -66,10 +66,10 @@ public class ColorServiceImpl implements ColorService {
     }
 
     @Override
-    public void update(int id, ColorDTO dto) {}
+    public void update(Integer id, ColorDTO dto) {}
 
     @Override
-    public void delete(int id) {}
+    public void delete(Integer id) {}
 
     public boolean isHexColor(String colorCode) {
         // Kiểm tra nếu mã màu có dạng # và theo sau là 6 ký tự hợp lệ (0-9, A-F, a-f)
