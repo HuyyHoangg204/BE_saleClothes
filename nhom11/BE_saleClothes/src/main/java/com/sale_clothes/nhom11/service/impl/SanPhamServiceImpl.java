@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Autowired
     private ColorRepository colorRepository;
+
+    @Value("${server.image.url}")
+    private String urlImage;
 
     @Override
     @Transactional
@@ -155,7 +159,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -203,7 +207,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -251,7 +255,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -299,7 +303,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -354,7 +358,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -396,7 +400,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -449,7 +453,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                         VariantDTO variantDTO = new VariantDTO();
 
                         for (FileData fileData : variant.getFileDataList()) {
-                            imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                            imageUrls.add(urlImage + fileData.getName());
                         }
 
                         variantDTO.setVariant_id(variant.getVariant_id());
@@ -499,7 +503,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 
                                 // Lấy các hình ảnh từ variant
                                 for (FileData fileData : variant.getFileDataList()) {
-                                    imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                                    imageUrls.add(urlImage + fileData.getName());
                                 }
 
                                 // Cập nhật thông tin variant
@@ -561,7 +565,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                     VariantDTO variantDTO = new VariantDTO();
 
                     for (FileData fileData : variant.getFileDataList()) {
-                        imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                        imageUrls.add(urlImage + fileData.getName());
                     }
                     variantDTO.setColor_id(variant.getColor().getColorID());
                     variantDTO.setImageUrl(imageUrls);

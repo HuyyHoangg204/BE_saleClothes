@@ -10,6 +10,7 @@ import com.sale_clothes.nhom11.repository.FavoriteProductRepository;
 import com.sale_clothes.nhom11.service.BaseRedisService;
 import com.sale_clothes.nhom11.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
 public class FavoriteProductServiceImpl implements IService<FavoriteProduct,Long> {
     @Autowired
     private FavoriteProductRepository favoriteProductRepository;
+
+    @Value("${server.image.url}")
+    private String urlImage;
 
     //Add product Favorite list
 
@@ -64,7 +68,7 @@ public class FavoriteProductServiceImpl implements IService<FavoriteProduct,Long
                 VariantDTO variantDTO = new VariantDTO();
 
                 for (FileData fileData : variant.getFileDataList()) {
-                    imageUrls.add("http://localhost:8081/images/" + fileData.getName());
+                    imageUrls.add(urlImage + fileData.getName());
                 }
 
                 variantDTO.setVariant_id(variant.getVariant_id());
