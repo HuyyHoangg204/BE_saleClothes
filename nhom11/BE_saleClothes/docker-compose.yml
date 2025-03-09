@@ -37,6 +37,10 @@ services:
     depends_on:
       - mysql
       - redis
+    volumes:
+      - /home/ubuntu/harious/Image:/app/images
 
-volumes:
-  mysql-data:
+  volumes:
+
+
+

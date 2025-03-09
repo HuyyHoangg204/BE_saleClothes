@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class FavoriteProductServiceImpl implements IService<FavoriteProduct,Long> {
     @Autowired
     private FavoriteProductRepository favoriteProductRepository;
+
     //Add product Favorite list
 
     @Transactional
