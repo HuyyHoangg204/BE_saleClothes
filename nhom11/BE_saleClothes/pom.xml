@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.harious</groupId>
-	<artifactId>devHHoang</artifactId>
+	<artifactId>haugiang</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>devHHoang</name>
 	<description>Ecommerce website</description>

@@ -17,6 +17,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     @Query("SELECT sp FROM SanPham sp WHERE sp.dmcMa.dmcMa = :idDmc")
     Page<SanPham> findAllByDmcId(@Param("idDmc") int id, Pageable pageable);
 
+
     //Get suggestions product when searching
     @Query("SELECT s.product_id, s.name, " +
             "CASE " +
@@ -29,7 +30,6 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
             "ORDER BY priority DESC " +
             "LIMIT 6")
     List<Object[]> searchProducts(@Param("keyword") String keyword);
-
 
 
 }

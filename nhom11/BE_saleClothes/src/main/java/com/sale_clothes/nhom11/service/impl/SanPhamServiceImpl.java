@@ -425,22 +425,24 @@ public class SanPhamServiceImpl implements SanPhamService {
         return productResponseDTOList;
     }
 
-    //Get all products by category
-    public Page<ProductResponseDTO> getAllProductsByCategory(int idDmc, int page, int size, int isSort) throws NotFoundException{
+    // Get all products by category
+    public Page<ProductResponseDTO> getAllProductsByCategory(int idDmc, int page, int size, int isSort)
+            throws NotFoundException {
 
-        Pageable pageable ;
+        Pageable pageable;
         // Kiểm tra giá trị isSort để quyết định cách sắp xếp
         if (isSort == 1) {
             pageable = PageRequest.of(page, size, Sort.by("base_price").ascending()); // Sắp xếp giá tăng dần
         } else if (isSort == 2) {
             pageable = PageRequest.of(page, size, Sort.by("base_price").descending()); // Sắp xếp giá giảm dần
         } else {
-            pageable = PageRequest.of(page, size, Sort.by("product_id").descending()); // Mặc định sắp xếp theo product_id
+            pageable =
+                    PageRequest.of(page, size, Sort.by("product_id").descending()); // Mặc định sắp xếp theo product_id
         }
 
-        Page<SanPham> sanPhamPage  = sanPhamRepository.findAllByDmcId(idDmc, pageable);
+        Page<SanPham> sanPhamPage = sanPhamRepository.findAllByDmcId(idDmc, pageable);
 
-        if(sanPhamPage .isEmpty()) {
+        if (sanPhamPage.isEmpty()) {
             throw new NotFoundException("Không tìm thấy sản phẩm nào có danh mục có ID:" + idDmc);
         }
 
@@ -475,8 +477,10 @@ public class SanPhamServiceImpl implements SanPhamService {
             return productResponseDTO;
         });
     }
-    //Filter all products
-    public Page<ProductResponseDTO> filterAllProductsByCategory(int idDmc, int page, int size, int isSort, String sizeClothes, int color, double fromPrice, double toPrice) throws NotFoundException {
+    // Filter all products
+    public Page<ProductResponseDTO> filterAllProductsByCategory(
+            int idDmc, int page, int size, int isSort, String sizeClothes, int color, double fromPrice, double toPrice)
+            throws NotFoundException {
 
         Pageable pageable;
         // Kiểm tra giá trị isSort để quyết định cách sắp xếp
@@ -485,7 +489,8 @@ public class SanPhamServiceImpl implements SanPhamService {
         } else if (isSort == 2) {
             pageable = PageRequest.of(page, size, Sort.by("base_price").descending()); // Sắp xếp giá giảm dần
         } else {
-            pageable = PageRequest.of(page, size, Sort.by("product_id").descending()); // Mặc định sắp xếp theo product_id
+            pageable =
+                    PageRequest.of(page, size, Sort.by("product_id").descending()); // Mặc định sắp xếp theo product_id
         }
 
         // Lấy danh sách sản phẩm theo danh mục
@@ -500,9 +505,12 @@ public class SanPhamServiceImpl implements SanPhamService {
                 .map(sanPham -> {
                     // Lọc các variants dựa trên màu sắc, kích thước và khoảng giá
                     List<VariantDTO> variantDTOS = sanPham.getProductVariants().stream()
-                            .filter(variant -> (color == 0 || variant.getColor().getColorID() == color) &&
-                                    (sizeClothes == null || sizeClothes.isEmpty() || variant.getSize().contains(sizeClothes)) &&
-                                    (sanPham.getBase_price() >= fromPrice && sanPham.getBase_price() <= toPrice)) // Lọc theo giá
+                            .filter(variant -> (color == 0 || variant.getColor().getColorID() == color)
+                                    && (sizeClothes == null
+                                            || sizeClothes.isEmpty()
+                                            || variant.getSize().contains(sizeClothes))
+                                    && (sanPham.getBase_price() >= fromPrice
+                                            && sanPham.getBase_price() <= toPrice)) // Lọc theo giá
                             .map(variant -> {
                                 List<String> imageUrls = new ArrayList<>();
                                 VariantDTO variantDTO = new VariantDTO();
@@ -553,9 +561,6 @@ public class SanPhamServiceImpl implements SanPhamService {
         // Chuyển đổi danh sách thành Page
         return new PageImpl<>(productResponseDTOList, pageable, sanPhamPage.getTotalElements());
     }
-
-
-
 
     public ProductCartResponseDTO getInfoProductCart(int id, int idColor) {
         ProductCartResponseDTO productCartResponseDTO = new ProductCartResponseDTO();

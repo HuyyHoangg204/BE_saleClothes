@@ -2,23 +2,21 @@ package com.sale_clothes.nhom11.mapper;
 
 import com.sale_clothes.nhom11.dto.KhuyenMaiDTO;
 import com.sale_clothes.nhom11.entity.KhuyenMai;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValueMappingStrategy;
 
-public class KhuyenMaiMapper {
-    public static KhuyenMaiDTO mapToKhuyenMaiDTO(KhuyenMai khuyenMai) {
-        return new KhuyenMaiDTO(
-                khuyenMai.getKh_ma(),
-                khuyenMai.getKm_ten(),
-                khuyenMai.getKm_noiDung(),
-                khuyenMai.getKm_tuNgay(),
-                khuyenMai.getKm_denNgay());
-    }
+import java.util.List;
 
-    public static KhuyenMai mapToKhuyenMai(KhuyenMaiDTO khuyenMaiDTO) {
-        return new KhuyenMai(
-                khuyenMaiDTO.getKh_ma(),
-                khuyenMaiDTO.getKm_ten(),
-                khuyenMaiDTO.getKm_noiDung(),
-                khuyenMaiDTO.getKm_tuNgay(),
-                khuyenMaiDTO.getKm_denNgay());
-    }
+
+@Mapper(componentModel = "spring", nullValueMapMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+public interface KhuyenMaiMapper {
+    @Mapping(target = "code", ignore = true)
+    public KhuyenMai mapToKhuyenMai(KhuyenMaiDTO kmdto);
+    @Mapping(target = "code")
+    public KhuyenMaiDTO mapToKhuyenMaiDTO(KhuyenMai km);
+    @Mapping(target = "code", ignore = true)
+    public List<KhuyenMaiDTO> mapToListKhuyenMaiDTO(List<KhuyenMai> kmdto);
+    @Mapping(target = "code")
+    public List<KhuyenMai> mapToListKhuyenMai(List<KhuyenMaiDTO> kmdto);
 }

@@ -32,7 +32,9 @@ public class KhachHangDTO {
     private String khDiaChi;
 
     @NotBlank(message = "Số điện thoại không được để trống!")
-    @Pattern(regexp = "^(0[1-9])[0-9]{8,9}$", message = "Số điện thoại không hợp lệ! (Phải bắt đầu bằng 0 và có 10-11 số)")
+    @Pattern(
+            regexp = "^(0[1-9])[0-9]{8,9}$",
+            message = "Số điện thoại không hợp lệ! (Phải bắt đầu bằng 0 và có 10-11 số)")
     private String khDienThoai;
 
     private String khEmail;
