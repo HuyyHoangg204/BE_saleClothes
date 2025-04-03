@@ -135,6 +135,12 @@ public class SanPhamServiceImpl implements SanPhamService {
         return listProduct;
     }
 
+    @Override
+    public List<Object[]> suggestionProduct(String query) {
+        List<Object[]> result = sanPhamRepository.searchProducts(query);
+        return result;
+    }
+
     // Get 12 product to show in homepage
     public List<ProductResponseDTO> getProductDetails() {
         List<ProductResponseDTO> productResponseDTOList = new ArrayList<>();
@@ -583,5 +589,52 @@ public class SanPhamServiceImpl implements SanPhamService {
         productCartResponseDTO.setColorName(color.getColorName());
 
         return productCartResponseDTO;
+    }
+
+    //Search product to show sale pages by id
+    public List<ProductResponseDTO> getProductSearched() {
+        List<ProductResponseDTO> productResponseDTOList = new ArrayList<>();
+
+        Pageable pageable = PageRequest.of(0, 12);
+        Page<SanPham> page = sanPhamRepository.findAll(pageable);
+
+        List<SanPham> products = sanPhamRepository.findProductsWithVariants(page.getContent());
+
+        //        List<ProductVariant> variants = productVariantRepository.findVariantsWithFileData(
+        //                products.stream().flatMap(p -> p.getProductVariants().stream()).collect(Collectors.toList())
+        //        );
+
+        for (SanPham sanPham : page.getContent()) {
+            ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+
+            double oldPrice = sanPham.getBase_price() / (1 - ((double) sanPham.getDiscount_percentage() / 100));
+
+            List<VariantDTO> variantDTOS = sanPham.getProductVariants().stream()
+                    .map(variant -> {
+                        List<String> imageUrls = new ArrayList<>();
+                        VariantDTO variantDTO = new VariantDTO();
+
+                        for (FileData fileData : variant.getFileDataList()) {
+                            imageUrls.add(urlImage + fileData.getName());
+                        }
+
+                        variantDTO.setVariant_id(variant.getVariant_id());
+                        variantDTO.setSize(variant.getSize());
+                        variantDTO.setColor_id(variant.getColor().getColorID());
+                        variantDTO.setColorCode(variant.getColor().getColorCode());
+                        variantDTO.setImageUrl(imageUrls);
+                        return variantDTO;
+                    })
+                    .collect(Collectors.toList());
+
+            productResponseDTO.setProductId(sanPham.getProduct_id());
+            productResponseDTO.setBasePrice(sanPham.getBase_price());
+            productResponseDTO.setName(sanPham.getName());
+            productResponseDTO.setOldPrice(oldPrice);
+            productResponseDTO.setVariants(variantDTOS);
+
+            productResponseDTOList.add(productResponseDTO);
+        }
+        return productResponseDTOList;
     }
 }

@@ -2,6 +2,7 @@ package com.sale_clothes.nhom11.controller;
 
 import java.util.Map;
 
+import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,16 @@ public class GioHangController {
             message = "Thêm vào giò hàng thất bại: " + e;
         }
         return ApiResponse.<String>builder().message(message).build();
+    }
+    //----------------------------------------------------------------
+    //Get total price in cart
+    @GetMapping("/priceCart/{username}")
+    @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
+    public ApiResponse<Double> calTotalPrice(@PathVariable String username) {
+        Double totalPrice = gioHangServiceImpl.calTotalPriceInCart(username);
+        return ApiResponse.<Double>builder()
+                .result(totalPrice)
+                .build();
     }
 
     // Get cart before login

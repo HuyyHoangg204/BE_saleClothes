@@ -17,4 +17,6 @@ public interface SanPhamService {
     void deleteSanPhamDTOById(int id);
 
     List<Map<String, Object>> getSanPhamToShowManager();
+
+    List<Object[]> suggestionProduct(String query);
 }

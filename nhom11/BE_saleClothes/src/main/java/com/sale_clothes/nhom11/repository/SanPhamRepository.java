@@ -17,4 +17,19 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     @Query("SELECT sp FROM SanPham sp WHERE sp.dmcMa.dmcMa = :idDmc")
     Page<SanPham> findAllByDmcId(@Param("idDmc") int id, Pageable pageable);
 
+    //Get suggestions product when searching
+    @Query("SELECT s.product_id, s.name, " +
+            "CASE " +
+            "WHEN s.name LIKE CONCAT(:keyword, '%') THEN 30 " +  // Tìm từ đầu
+            "WHEN s.name LIKE CONCAT('%', :keyword, '%') THEN 20 " +  // Tìm ở giữa
+            "ELSE 10 " +
+            "END + (50 - LENGTH(s.name)) AS priority " +
+            "FROM SanPham s " +
+            "WHERE s.name LIKE CONCAT('%', :keyword, '%') " +
+            "ORDER BY priority DESC " +
+            "LIMIT 6")
+    List<Object[]> searchProducts(@Param("keyword") String keyword);
+
+
+
 }

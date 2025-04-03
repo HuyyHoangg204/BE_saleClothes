@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,13 @@ import com.sale_clothes.nhom11.service.impl.ImageService;
 public class ImageController {
     @Autowired
     private ImageService imageService;
+
+    @Value("${server.image.url}")
+    private String urlImage;
+
+    @Value("${app.file.upload-dir}")
+    private String FOLDER_PATH;
+    private String folderPath;
 
     // Upload a image
     @PreAuthorize("hasRole('ADMIN')")
@@ -66,7 +74,7 @@ public class ImageController {
             imageDataResponses.add(ImageDataResponse.builder()
                     .id(fileData.getId())
                     .name(fileData.getName())
-                    .imageUrl("http://localhost:8081/images/" + fileData.getName())
+                    .imageUrl(urlImage + fileData.getName())
                     .type(fileData.getType())
                     .variant_id(fileData.getProductVariant().getVariant_id())
                     .build());
@@ -79,7 +87,7 @@ public class ImageController {
     // Get image by imageName
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws Exception {
-        Path imagePath = Paths.get("F:/WorkSpace/Project/saleClothes/Image/").resolve(imageName);
+        Path imagePath = Paths.get(FOLDER_PATH).resolve(imageName);
         Resource resource = new UrlResource(imagePath.toUri());
 
         if (resource.exists() || resource.isReadable()) {

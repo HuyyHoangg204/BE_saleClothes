@@ -159,4 +159,13 @@ public class SanPhamController {
                 .result(productResponseDTO)
                 .build();
     }
+
+    //Get suggestions when user searching
+    @GetMapping("/suggestion")
+    public ApiResponse<List<Object[]>> getSuggestions(@RequestParam String query) {
+        List<Object[]> result = sanPhamService.suggestionProduct(query);
+        return ApiResponse.<List<Object[]>>builder()
+                .result(result)
+                .build();
+    }
 }

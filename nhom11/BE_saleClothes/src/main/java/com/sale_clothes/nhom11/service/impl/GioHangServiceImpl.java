@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.sale_clothes.nhom11.entity.SanPham;
+import com.sale_clothes.nhom11.repository.SanPhamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,6 +30,9 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
 
     @Autowired
     private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
 
     @Autowired
     private ColorRepository colorRepository;
@@ -114,6 +119,18 @@ public class GioHangServiceImpl extends BaseRedisServiceImpl<String, String, Int
 
             delete(guestCartId);
         }
+    }
+    //Tổng giá trị các sản phẩm trong giỏ hàng
+    public double calTotalPriceInCart(String username) {
+        List<GioHang> gioHangs = gioHangRepository.findAllByUsername(username);
+        //Loop list gio hang to get id product
+        return gioHangs.stream()
+                .mapToDouble(gioHang -> {
+                    SanPham sanPham = sanPhamRepository.findById(gioHang.getProductId())
+                            .orElseThrow(() -> new NotFoundException("Product not found"));
+                    return sanPham.getBase_price() * gioHang.getQuantity();
+                })
+                .sum();
     }
 
     // Lấy giỏ hàng của khách before login
