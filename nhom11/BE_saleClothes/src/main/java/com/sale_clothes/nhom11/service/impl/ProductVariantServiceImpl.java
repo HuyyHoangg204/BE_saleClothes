@@ -39,12 +39,12 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public ProductVariantDTO getById(int id) {
+    public ProductVariantDTO getById(Integer id) {
         return null;
     }
 
     @Override
-    public void update(int id, ProductVariantDTO dto) {
+    public void update(Integer id, ProductVariantDTO dto) {
         Optional<ProductVariant> productVariant = productVariantRepository.findById(id);
         ProductVariant productVariant1 = productVariantMapper.mapToProductVariant(dto);
         if (!productVariant.isPresent()) {
@@ -59,7 +59,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         Optional<ProductVariant> productVariant = productVariantRepository.findById(id);
         if (!productVariant.isPresent()) {
             throw new RuntimeException("Product variant not found");
