@@ -1,16 +1,13 @@
 package com.sale_clothes.nhom11.entity;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,20 +15,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "khuyen_mai")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class KhuyenMai {
+    private static String uniqueString;
     @Id
-    @Column(name = "km_ma")
-    private String kh_ma;
-
-    @Column(name = "km_ten")
-    private String km_ten;
-
-    @Column(name = "km_noidung")
-    private String km_noiDung;
-
-    @Column(name = "km_tungay")
-    private LocalDate km_tuNgay;
-
-    @Column(name = "km_denngay")
-    private LocalDate km_denNgay;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+    String code = uniqueString;
+    String description;
+    // Percentage, fixed_amount
+    String discountType;
+    Double discountValue;
+    Double maxDiscountValue;
+    Double minOrderAmount;
+    LocalDate startDate;
+    LocalDate endDate;
+    Integer usageLimit;
+    LocalDate createdAt;
+    LocalDate updatedAt;
+    static{
+        uniqueString =  UUID.randomUUID().toString().replace("-", "").substring(0, 10).toUpperCase();
+    }
 }

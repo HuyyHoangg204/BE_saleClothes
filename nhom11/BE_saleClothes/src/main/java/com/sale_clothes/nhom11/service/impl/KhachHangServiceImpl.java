@@ -62,7 +62,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public void updateKhachHang(String id, KhachHangDTO khachHangDTO) {
         Optional<KhachHang> khachHang = khachHangRepository.findById(id);
-        if(khachHang.isPresent()) {
+        if (khachHang.isPresent()) {
             KhachHang khachHang1 = khachHang.get();
             khachHang1.setKhTen(khachHangDTO.getKhTen());
             khachHang1.setKhDienThoai(khachHangDTO.getKhDienThoai());
@@ -72,7 +72,6 @@ public class KhachHangServiceImpl implements KhachHangService {
             khachHang1.setKhThangSinh(khachHangDTO.getKh_thangSinh());
             khachHangRepository.save(khachHang1);
         }
-
     }
 
     @Override

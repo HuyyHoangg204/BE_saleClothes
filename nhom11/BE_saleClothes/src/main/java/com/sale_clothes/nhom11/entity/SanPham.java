@@ -22,6 +22,7 @@ public class SanPham {
 
     private String name;
     private double base_price;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String material;
     private String instruction;
@@ -46,5 +47,5 @@ public class SanPham {
     //    @ManyToOne(optional = true)
     //    @JoinColumn(name = "ch_ma")
     //    private CuaHang chMa;
-
+    
 }

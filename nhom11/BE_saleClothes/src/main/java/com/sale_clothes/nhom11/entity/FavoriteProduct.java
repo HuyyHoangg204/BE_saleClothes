@@ -1,16 +1,16 @@
 package com.sale_clothes.nhom11.entity;
 
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name= "favorte_product")
+@Table(name = "favorte_product")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -50,9 +50,9 @@ public class SecurityConfig {
         "/api/v1/getCart/*",
         "/api/v1/*/removeCart",
         "/api/v1/productCart/*",
-            "/api/v1/productsByCategory/*",
-            "/api/v1/filterProduct/*",
-            "/api/v1/colors"
+        "/api/v1/productsByCategory/*",
+        "/api/v1/filterProduct/*",
+        "/api/v1/colors"
     };
 
     @Bean

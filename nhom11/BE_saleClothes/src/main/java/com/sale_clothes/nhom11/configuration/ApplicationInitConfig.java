@@ -19,9 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ApplicationInitConfig {
+    PasswordEncoder  passwordEncoder;
     @Autowired
-    PasswordEncoder passwordEncoder;
-
+    public ApplicationInitConfig(PasswordEncoder pass){
+        this.passwordEncoder = pass;
+    }
     @Bean
     ApplicationRunner applicationRunner(KhachHangRepository khachHangRepository) {
         return args -> {
