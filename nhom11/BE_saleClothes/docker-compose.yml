@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: sale_clothes
       MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_PASSWORD: haubnvn2004
     ports:
       - "3306:3306"
     volumes:
@@ -24,7 +24,7 @@ services:
     environment:
       DBMS_CONNECTION: jdbc:mysql://mysql:3306/sale_clothes
       DB_USERNAME: root
-      DB_PASSWORD: root
+      DB_PASSWORD: haubnvn2004
     depends_on:
       - mysql
 

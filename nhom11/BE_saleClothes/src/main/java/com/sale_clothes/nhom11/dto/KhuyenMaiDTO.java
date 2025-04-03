@@ -12,13 +12,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KhuyenMaiDTO {
-    private String kh_ma;
-
-    private String km_ten;
-
-    private String km_noiDung;
-
-    private LocalDate km_tuNgay;
-
-    private LocalDate km_denNgay;
+    Integer id;
+    String code;
+    String description;
+    // Percentage, fixed_amount
+    String discountType;
+    Double discountValue;
+    Double maxDiscountValue;
+    Double minOrderAmount;
+    LocalDate startDate;
+    LocalDate endDate;
+    Integer usageLimit;
+    LocalDate createdAt;
+    LocalDate updatedAt;
 }
