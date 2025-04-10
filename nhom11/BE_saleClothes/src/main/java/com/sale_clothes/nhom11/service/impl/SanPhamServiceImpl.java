@@ -477,6 +477,91 @@ public class SanPhamServiceImpl implements SanPhamService {
             return productResponseDTO;
         });
     }
+    // Get all product by search letters and filter
+    public Page<ProductResponseDTO> getAllProductsBySearchLetter(String query, int page, int size, int isSort , String sizeClothes, int color, double fromPrice, double toPrice)
+            throws NotFoundException {
+
+        // trim keyword
+        query = query == null ? "" : query.trim();
+
+        Pageable pageable;
+        // Kiểm tra giá trị isSort để quyết định cách sắp xếp
+        if (isSort == 1) {
+            pageable = PageRequest.of(page, size, Sort.by("base_price").ascending()); // Sắp xếp giá tăng dần
+        } else if (isSort == 2) {
+            pageable = PageRequest.of(page, size, Sort.by("base_price").descending()); // Sắp xếp giá giảm dần
+        } else {
+            pageable =
+                    PageRequest.of(page, size, Sort.by("product_id").descending()); // Mặc định sắp xếp theo product_id
+        }
+
+        Page<SanPham> sanPhamPage = sanPhamRepository.findAllBySearchLetter(query, pageable);
+
+        if (sanPhamPage.isEmpty()) {
+            throw new NotFoundException("Không tìm thấy sản phẩm nào cho tim kiem " + query);
+        }
+
+        List<ProductResponseDTO> productResponseDTOList = sanPhamPage.getContent().stream()
+                .map(sanPham -> {
+                    // Lọc các variants dựa trên màu sắc, kích thước và khoảng giá
+                    List<VariantDTO> variantDTOS = sanPham.getProductVariants().stream()
+                            .filter(variant -> (color == 0 || variant.getColor().getColorID() == color)
+                                    && (sizeClothes == null
+                                    || sizeClothes.isEmpty()
+                                    || variant.getSize().contains(sizeClothes))
+                                    && (sanPham.getBase_price() >= fromPrice
+                                    && sanPham.getBase_price() <= toPrice)) // Lọc theo giá
+                            .map(variant -> {
+                                List<String> imageUrls = new ArrayList<>();
+                                VariantDTO variantDTO = new VariantDTO();
+
+                                // Lấy các hình ảnh từ variant
+                                for (FileData fileData : variant.getFileDataList()) {
+                                    imageUrls.add(urlImage + fileData.getName());
+                                }
+
+                                // Cập nhật thông tin variant
+                                variantDTO.setVariant_id(variant.getVariant_id());
+                                variantDTO.setSize(variant.getSize());
+                                variantDTO.setColor_id(variant.getColor().getColorID());
+                                variantDTO.setColorCode(variant.getColor().getColorCode());
+                                variantDTO.setImageUrl(imageUrls);
+
+                                return variantDTO;
+                            })
+                            .collect(Collectors.toList());
+
+                    // Nếu không có variant thỏa mãn điều kiện, loại bỏ sản phẩm khỏi danh sách
+                    if (variantDTOS.isEmpty()) {
+                        return null; // Trả về null để loại bỏ sản phẩm không có variant phù hợp
+                    }
+
+                    // Tạo đối tượng DTO cho sản phẩm
+                    ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+                    productResponseDTO.setProductId(sanPham.getProduct_id());
+                    productResponseDTO.setName(sanPham.getName());
+                    productResponseDTO.setBasePrice(sanPham.getBase_price());
+
+                    // Tính giá cũ dựa trên % giảm giá
+                    double oldPrice = sanPham.getBase_price() / (1 - ((double) sanPham.getDiscount_percentage() / 100));
+                    productResponseDTO.setOldPrice(oldPrice);
+
+                    productResponseDTO.setVariants(variantDTOS);
+
+                    return productResponseDTO; // Trả về đối tượng ProductResponseDTO
+                })
+                .filter(Objects::nonNull) // Loại bỏ các sản phẩm không có variant hợp lệ
+                .collect(Collectors.toList());
+
+        // Nếu không có sản phẩm nào hợp lệ, ném ra ngoại lệ
+        if (productResponseDTOList.isEmpty()) {
+            throw new NotFoundException("Không tìm thấy sản phẩm phù hợp với các tiêu chí lọc.");
+        }
+
+        // Chuyển đổi danh sách thành Page
+        return new PageImpl<>(productResponseDTOList, pageable, sanPhamPage.getTotalElements());
+
+    }
     // Filter all products
     public Page<ProductResponseDTO> filterAllProductsByCategory(
             int idDmc, int page, int size, int isSort, String sizeClothes, int color, double fromPrice, double toPrice)

@@ -171,4 +171,21 @@ public class SanPhamController {
                 .result(result)
                 .build();
     }
+
+    //Get all products when user searching
+    @GetMapping("/search")
+    public ApiResponse<Page<ProductResponseDTO>> getAllProductsBySearch(@RequestParam String query,
+                                                                        @RequestParam(defaultValue = "1") int page,
+                                                                        @RequestParam(defaultValue = "10") int size,
+                                                                        @RequestParam(defaultValue = "0") int isSort,
+                                                                        @RequestParam(defaultValue = "0") int color,
+                                                                        @RequestParam(required = false) String sizeClothes,
+                                                                        @RequestParam(defaultValue = "0") double fromPrice,
+                                                                        @RequestParam(defaultValue = "999999999999") double toPrice) {
+        Page<ProductResponseDTO> productResponseDTOS = sanPhamService.getAllProductsBySearchLetter(query,page - 1, size, isSort, sizeClothes, color, fromPrice, toPrice );
+
+        return ApiResponse.<Page<ProductResponseDTO>>builder()
+                .result(productResponseDTOS)
+                .build();
+    }
 }

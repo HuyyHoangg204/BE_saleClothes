@@ -18,6 +18,8 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     Page<SanPham> findAllByDmcId(@Param("idDmc") int id, Pageable pageable);
 
 
+
+
     //Get suggestions product when searching
     @Query("SELECT s.product_id, s.name, " +
             "CASE " +
@@ -30,6 +32,9 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
             "ORDER BY priority DESC " +
             "LIMIT 6")
     List<Object[]> searchProducts(@Param("keyword") String keyword);
+
+    @Query("SELECT sp FROM SanPham sp WHERE sp.name LIKE CONCAT('%', :keyword, '%')")
+    Page<SanPham> findAllBySearchLetter(@Param("keyword") String keyword, Pageable pageable);
 
 
 }
