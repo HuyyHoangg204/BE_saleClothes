@@ -665,6 +665,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                     }
                     variantDTO.setColor_id(variant.getColor().getColorID());
                     variantDTO.setImageUrl(imageUrls);
+                    variantDTO.setVariant_id(variant.getVariant_id());
                     return variantDTO;
                 })
                 .collect(Collectors.toList());

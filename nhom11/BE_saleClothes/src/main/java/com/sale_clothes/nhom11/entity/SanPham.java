@@ -36,6 +36,10 @@ public class SanPham {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductVariant> productVariants = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private DonDatHang order;
+
     //    @ManyToOne(optional = true)
     //    @JoinColumn(name = "km_ma")
     //    private KhuyenMai khMa;

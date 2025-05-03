@@ -1,8 +1,12 @@
 package com.sale_clothes.nhom11.repository;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.sale_clothes.nhom11.entity.SanPham;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,4 +19,8 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
 
     @Query("SELECT DISTINCT v FROM ProductVariant v LEFT JOIN FETCH v.fileDataList WHERE v IN :variants")
     List<ProductVariant> findVariantsWithFileData(@Param("variants") List<ProductVariant> variants);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT p FROM ProductVariant p WHERE p.variant_id = :id")
+    Optional<ProductVariant> findByIdForUpdate(@Param("id") Integer id);
 }

@@ -19,4 +19,6 @@ public interface SanPhamService {
     List<Map<String, Object>> getSanPhamToShowManager();
 
     List<Object[]> suggestionProduct(String query);
+
+
 }
