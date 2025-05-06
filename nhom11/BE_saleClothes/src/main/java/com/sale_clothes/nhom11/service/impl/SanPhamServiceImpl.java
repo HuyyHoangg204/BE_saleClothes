@@ -3,6 +3,7 @@ package com.sale_clothes.nhom11.service.impl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.sale_clothes.nhom11.dto.response.OrderProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -727,5 +728,16 @@ public class SanPhamServiceImpl implements SanPhamService {
             productResponseDTOList.add(productResponseDTO);
         }
         return productResponseDTOList;
+    }
+
+    public OrderProductResponse getDataProductToShowOrderManger(Integer variantId) {
+        OrderProductResponse orderProductResponse = new OrderProductResponse();
+
+        SanPham sanPham = sanPhamRepository.findByVariantId(variantId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy sản phẩm với variantId:" + variantId));
+
+        orderProductResponse.setName(sanPham.getName());
+        orderProductResponse.setBase_price(sanPham.getBase_price());
+        return orderProductResponse;
     }
 }

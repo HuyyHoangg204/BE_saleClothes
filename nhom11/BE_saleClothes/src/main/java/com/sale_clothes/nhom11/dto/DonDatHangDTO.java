@@ -23,6 +23,7 @@ public class DonDatHangDTO {
     private Double shippingFee;
 
     private String username;
+    private String orderCode;
 
     private Long addressId; // Information address, phone and fullname of user
 

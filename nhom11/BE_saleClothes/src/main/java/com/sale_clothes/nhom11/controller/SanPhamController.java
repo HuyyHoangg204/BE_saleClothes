@@ -3,16 +3,13 @@ package com.sale_clothes.nhom11.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.sale_clothes.nhom11.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.sale_clothes.nhom11.dto.SanPhamDTO;
-import com.sale_clothes.nhom11.dto.response.ApiResponse;
-import com.sale_clothes.nhom11.dto.response.ProductCartResponseDTO;
-import com.sale_clothes.nhom11.dto.response.ProductDetailResponseDTO;
-import com.sale_clothes.nhom11.dto.response.ProductResponseDTO;
 import com.sale_clothes.nhom11.service.impl.SanPhamServiceImpl;
 
 import lombok.AllArgsConstructor;
@@ -188,4 +185,15 @@ public class SanPhamController {
                 .result(productResponseDTOS)
                 .build();
     }
+
+    @GetMapping("/productOrder/{variantId}")
+    @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
+    public ApiResponse<OrderProductResponse> getDataProductToShowOrderManger(@PathVariable Integer variantId,
+                                                                             @RequestParam String username) {
+        OrderProductResponse orderProductResponse = sanPhamService.getDataProductToShowOrderManger(variantId);
+        return ApiResponse.<OrderProductResponse>builder()
+                .result(orderProductResponse)
+                .build();
+    }
+
 }

@@ -42,6 +42,8 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     Page<SanPham> findAllBySearchLetter(@Param("keyword") String keyword, Pageable pageable);
 
 
+    @Query("SELECT sp FROM SanPham sp JOIN sp.productVariants pv WHERE pv.variant_id = :id")
+    Optional<SanPham> findByVariantId(@Param("id") Integer variantId);
 
 
 
