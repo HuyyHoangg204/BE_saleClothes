@@ -24,6 +24,7 @@ public class DonDatHangDTO {
 
     private String username;
     private String orderCode;
+    private String size;
 
     private Long addressId; // Information address, phone and fullname of user
 

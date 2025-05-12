@@ -1,6 +1,7 @@
 package com.sale_clothes.nhom11.repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import jakarta.persistence.LockModeType;
@@ -45,6 +46,8 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     @Query("SELECT sp FROM SanPham sp JOIN sp.productVariants pv WHERE pv.variant_id = :id")
     Optional<SanPham> findByVariantId(@Param("id") Integer variantId);
 
+    @Query("SELECT sp FROM SanPham sp JOIN sp.productVariants pv WHERE pv.variant_id IN :ids")
+    List<SanPham> findAllByVariantIdIn(@Param("ids") List<Integer> variantIds);
 
 
 }

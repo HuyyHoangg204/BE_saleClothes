@@ -31,6 +31,8 @@ public class DonDatHang {
 
     private Double totalAmount;
 
+
+
     @Column(unique = true, nullable = false)
     private String orderCode;
 

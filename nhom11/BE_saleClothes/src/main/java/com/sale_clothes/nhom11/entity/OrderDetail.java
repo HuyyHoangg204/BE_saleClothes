@@ -24,5 +24,7 @@ public class OrderDetail {
     @JoinColumn(name = "variant_id")
     ProductVariant productVariant;
 
+    private String size;
+
     Integer quantity;  // Số lượng sản phẩm trong đơn hàng
 }
