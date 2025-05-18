@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,18 @@ public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusH
 
     @Query("select o from OrderStatusHistory o where o.status = :status and o.order.orderId = :orderId")
     Optional<OrderStatusHistory> findByOrderDateAndOrderId(@Param("orderId") String orderId, @Param("status") OrderStatus orderStatus);
+
+    @Query("SELECT o FROM OrderStatusHistory o " +
+            "WHERE o.status = :status AND o.statusDate >= :startOfDay AND o.statusDate < :endOfDay")
+    List<OrderStatusHistory> findAllByOrderDateAndOrderStatus(
+            @Param("startOfDay") LocalDateTime startOfDay,
+            @Param("endOfDay") LocalDateTime endOfDay,
+            @Param("status") OrderStatus status);
+
+    @Query("SELECT o FROM OrderStatusHistory o " +
+            "WHERE o.status = :status AND o.statusDate >= :startOfDay AND o.statusDate < :endOfDay")
+    List<OrderStatusHistory> findAllByOrderMonthAndOrderStatus(
+            @Param("startOfDay") LocalDateTime startOfDay,
+            @Param("endOfDay") LocalDateTime endOfDay,
+            @Param("status") OrderStatus status);
 }
