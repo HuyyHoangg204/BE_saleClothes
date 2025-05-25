@@ -58,6 +58,7 @@ public class SecurityConfig {
         "/api/v1/filterProduct/*",
         "/api/v1/colors",
             "/api/v1/search",
+            "/api/v1/chatbot/ask"
 
     };
 
